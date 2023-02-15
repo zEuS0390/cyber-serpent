@@ -2,7 +2,8 @@ cmake_minimum_required(VERSION 3.21)
 project(snake_game_by_zEuS0390 VERSION 1.0.0)
 
 set(CMAKE_CXX_STANDARD 17)
-set(SFML_DIR "libs/SFML-2.5.1/lib/cmake/SFML")
+set(SFML_NAME "SFML-2.5.1")
+set(SFML_DIR "libs/${SFML_NAME}/lib/cmake/SFML")
 set(SFML_STATIC_LIBRARIES TRUE)
 set(SFML_BUILD_TYPE "Release")
 set(CMAKE_RUNTIME_OUTPUT_DIRECTORY "${CMAKE_BINARY_DIR}/bin")
@@ -31,11 +32,16 @@ add_custom_command(TARGET ${PROJECT_NAME} POST_BUILD
 	COMMAND ${CMAKE_COMMAND} -E copy_directory ${PROJECT_SOURCE_DIR}/sfx $<TARGET_FILE_DIR:${PROJECT_NAME}>/sfx)
 add_custom_command(TARGET ${PROJECT_NAME} POST_BUILD
 	COMMAND ${CMAKE_COMMAND} -E copy ${PROJECT_SOURCE_DIR}/november.ttf $<TARGET_FILE_DIR:${PROJECT_NAME}>)
+if (WIN32)
+	add_custom_command(TARGET ${PROJECT_NAME} POST_BUILD
+		COMMAND ${CMAKE_COMMAND} -E copy ${PROJECT_SOURCE_DIR}/libs/${SFML_NAME}/bin/openal32.dll 
+		$<TARGET_FILE_DIR:${PROJECT_NAME}>)
+endif()
 
 install(TARGETS ${PROJECT_NAME} DESTINATION ".")
 install(DIRECTORY ${PROJECT_SOURCE_DIR}/gfx DESTINATION ".")
 install(DIRECTORY ${PROJECT_SOURCE_DIR}/sfx DESTINATION ".")
-install(FILES ${PROJECT_SOURCE_DIR}/november.ttf DESTINATION ".")
+install(FILES ${PROJECT_SOURCE_DIR}/november.ttf ${PROJECT_SOURCE_DIR}/libs/${SFML_NAME}/bin/openal32.dll DESTINATION ".")
 
 include(InstallRequiredSystemLibraries)
 set(CPACK_RESOURCE_FILE_LICENSE "${PROJECT_SOURCE_DIR}/LICENSE")
