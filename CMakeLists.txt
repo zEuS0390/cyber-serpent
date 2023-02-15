@@ -1,5 +1,5 @@
 cmake_minimum_required(VERSION 3.21)
-project(SFML_SNAKE_GAME)
+project(snake_game_by_zEuS0390)
 
 set(CMAKE_CXX_STANDARD 17)
 set(SFML_DIR "libs/SFML-2.5.1/lib/cmake/SFML")
@@ -17,17 +17,17 @@ set(APP_SRC_FILES
 
 find_package(SFML COMPONENTS audio graphics window system REQUIRED)
 if (WIN32)
-	add_executable(SFML_SNAKE_GAME WIN32 ${APP_SRC_FILES} $<$<PLATFORM_ID:Windows>:${APP_ICON_RC}>)
+	add_executable(${PROJECT_NAME} WIN32 ${APP_SRC_FILES} $<$<PLATFORM_ID:Windows>:${APP_ICON_RC}>)
 else()
-	add_executable(SFML_SNAKE_GAME ${APP_SRC_FILES} $<$<PLATFORM_ID:Windows>:${APP_ICON_RC}>)
+	add_executable(${PROJECT_NAME} ${APP_SRC_FILES} $<$<PLATFORM_ID:Windows>:${APP_ICON_RC}>)
 endif()	
 
-target_link_libraries(SFML_SNAKE_GAME sfml-audio sfml-graphics sfml-window sfml-system)
-target_include_directories(SFML_SNAKE_GAME PRIVATE include)
+target_link_libraries(${PROJECT_NAME} sfml-audio sfml-graphics sfml-window sfml-system)
+target_include_directories(${PROJECT_NAME} PRIVATE include)
 
-add_custom_command(TARGET SFML_SNAKE_GAME POST_BUILD
-	COMMAND ${CMAKE_COMMAND} -E copy_directory ${PROJECT_SOURCE_DIR}/gfx $<TARGET_FILE_DIR:SFML_SNAKE_GAME>/gfx)
-add_custom_command(TARGET SFML_SNAKE_GAME POST_BUILD
-	COMMAND ${CMAKE_COMMAND} -E copy_directory ${PROJECT_SOURCE_DIR}/sfx $<TARGET_FILE_DIR:SFML_SNAKE_GAME>/sfx)
-add_custom_command(TARGET SFML_SNAKE_GAME POST_BUILD
-	COMMAND ${CMAKE_COMMAND} -E copy ${PROJECT_SOURCE_DIR}/november.ttf $<TARGET_FILE_DIR:SFML_SNAKE_GAME>)
+add_custom_command(TARGET ${PROJECT_NAME} POST_BUILD
+	COMMAND ${CMAKE_COMMAND} -E copy_directory ${PROJECT_SOURCE_DIR}/gfx $<TARGET_FILE_DIR:${PROJECT_NAME}>/gfx)
+add_custom_command(TARGET ${PROJECT_NAME} POST_BUILD
+	COMMAND ${CMAKE_COMMAND} -E copy_directory ${PROJECT_SOURCE_DIR}/sfx $<TARGET_FILE_DIR:${PROJECT_NAME}>/sfx)
+add_custom_command(TARGET ${PROJECT_NAME} POST_BUILD
+	COMMAND ${CMAKE_COMMAND} -E copy ${PROJECT_SOURCE_DIR}/november.ttf $<TARGET_FILE_DIR:${PROJECT_NAME}>)
