@@ -1,1 +1,1 @@
-MAINICON ICON "gfx/icon.ico"
+MAINICON ICON DISCARDABLE "../gfx/icon.ico"
