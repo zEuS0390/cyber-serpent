@@ -4,6 +4,7 @@ project(SFML_SNAKE_GAME)
 set(CMAKE_CXX_STANDARD 17)
 set(SFML_DIR "libs/SFML-2.5.1/lib/cmake/SFML")
 set(SFML_STATIC_LIBRARIES TRUE)
+set(CMAKE_RUNTIME_OUTPUT_DIRECTORY "${CMAKE_BINARY_DIR}/bin")
 
 find_package(SFML COMPONENTS audio graphics window system REQUIRED)
 add_executable(SFML_SNAKE_GAME
