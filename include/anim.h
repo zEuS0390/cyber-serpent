@@ -5,17 +5,17 @@
 #include "sound.h"
 
 // anim class for creating animations
-class anim {
+class Anim {
     public:
         unsigned int    scale;
         unsigned int    total;
         float           pitch;
         bool            scoreOnce;
     public:
-        anim (sf::RenderWindow*, unsigned int);
+        Anim (sf::RenderWindow*, unsigned int);
     public:
         void explodeFood (bool&, sf::Color, sf::Vector2f, float);
-        void scoreAnim (soundManager&, sf::Clock&, sf::Color, unsigned int, sf::Vector2f);
+        void scoreAnim (SoundManager&, sf::Clock&, sf::Color, unsigned int, sf::Vector2f);
     private:
         std::string intToStr (int);
     private:

@@ -4,7 +4,7 @@
 #include "anim.h"
 #include "sound.h"
 
-anim::anim (sf::RenderWindow* window, unsigned int scale)
+Anim::Anim (sf::RenderWindow* window, unsigned int scale)
 :   scale(scale),
     total(0),
     pitch(0.1f),
@@ -16,7 +16,7 @@ anim::anim (sf::RenderWindow* window, unsigned int scale)
     shape4(sf::Vector2f(scale, scale)) {
 }
 
-void anim::explodeFood (bool& isActive,
+void Anim::explodeFood (bool& isActive,
                         sf::Color color,
                         sf::Vector2f foodPos,
                         float time) {
@@ -79,7 +79,7 @@ void anim::explodeFood (bool& isActive,
     return;
 }
 
-void anim::scoreAnim (soundManager& soundManager,
+void Anim::scoreAnim (SoundManager& soundManager,
                       sf::Clock& clock,
                       sf::Color color,
                       unsigned int score,
@@ -111,7 +111,7 @@ void anim::scoreAnim (soundManager& soundManager,
     return;
 }
 
-std::string anim::intToStr (int number) {
+std::string Anim::intToStr (int number) {
     std::stringstream str;
     str << number;
     std::string s = str.str();

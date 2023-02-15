@@ -13,7 +13,7 @@
 #include "food.h"
 #include "anim.h"
 
-struct colors {
+struct Colors {
     bool up;
     bool right;
     bool down;
@@ -41,8 +41,8 @@ class snakeGame {
     private:
         std::vector<sf::RectangleShape> snakeRects;
     private:
-        colors                  colors;
-        soundManager            soundManager;
+        Colors                  colors;
+        SoundManager		soundManager;
         snake                   snakeObj;
         windowGrid              winGrid;
         food                    foodObj;
@@ -51,9 +51,9 @@ class snakeGame {
         sf::Clock               clock;
         sf::Clock               menuClock;
         sf::Clock               scoreClock;
-        anim                    anim;
+        Anim                    anim;
         sf::Vector2f            lastFoodPos;
-        interface               interface;
+        Interface               interface;
 };
 
 #endif

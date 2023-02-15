@@ -15,12 +15,12 @@ class interfaceText : public sf::Text {
 };
 
 // interface class
-class interface {
+class Interface {
     public:
         bool isMenu;
         int menuSelect;
     public:
-        interface (sf::RenderWindow*);
+        Interface (sf::RenderWindow*);
     public:
         void check (std::string);
         void menu (sf::Clock&);

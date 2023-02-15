@@ -19,10 +19,10 @@ class sound {
 };
 
 // soundManager class
-class soundManager {
+class SoundManager {
     public:
-        soundManager                (void);
-        ~soundManager               (void);
+        SoundManager                (void);
+        ~SoundManager               (void);
         void audioInit              (void);
         void playAudio              (std::string);
         void setPitch               (std::string, float);

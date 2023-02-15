@@ -21,7 +21,7 @@ interfaceText::interfaceText (std::string filepath,
 }
 
 // Interface Class
-interface::interface (sf::RenderWindow* window)
+Interface::Interface (sf::RenderWindow* window)
 :
     // Interface Class Members's Initialization
     isMenu(true),
@@ -44,7 +44,7 @@ interface::interface (sf::RenderWindow* window)
     exitPos ((640/2)-(exit.getGlobalBounds().width/2), 320) {
 }
 
-void interface::menu (sf::Clock& clock) {
+void Interface::menu (sf::Clock& clock) {
     frame();
 
     frameSelect.setFillColor(sf::Color(0, 150, 0, 150));
@@ -84,14 +84,14 @@ void interface::menu (sf::Clock& clock) {
     return;
 }
 
-std::string interface::intToStr (int number) {
+std::string Interface::intToStr (int number) {
     std::stringstream str;
     str << number;
     std::string s = str.str();
     return s;
 }
 
-void interface::frame (void) {
+void Interface::frame (void) {
     frameObj.setFillColor(sf::Color(0, 75, 0));
     frameObj.setPosition(framePos);
     window->draw(frameObj);
