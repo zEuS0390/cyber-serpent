@@ -3,9 +3,9 @@
 Demo Video: https://youtu.be/nnagibXqy0g
 
 ## How to Build?
-1. Download the latest version of SFML (2.x) and make sure it is compatible to your platform that you want to compile for
-2. Extract and place it in the libs directory
-3. Open the terminal or command-prompt and navigate to the project's build directory
+1. Download the latest version of [SFML 2.x](https://www.sfml-dev.org/download.php), make sure it is compatible to your platform.
+2. Extract and place it in the libs directory.
+3. Open the terminal or command prompt and navigate to the project's build directory.
 4. Execute the command ```cmake ..``` followed by ```mingw32-make``` or ```cmake --build .```
 5. A bin directory will be created, which contains the executable program. Go there and run it.
 
