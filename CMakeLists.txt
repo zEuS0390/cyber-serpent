@@ -4,7 +4,7 @@ project(snake_game_by_zEuS0390 VERSION 1.0.0)
 set(CMAKE_CXX_STANDARD 17)
 set(SFML_NAME "SFML-2.5.1")
 set(SFML_DIR "libs/${SFML_NAME}/lib/cmake/SFML")
-if (WIN32)
+if (CMAKE_SYSTEM_NAME MATCHES "Windows")
 	set(SFML_STATIC_LIBRARIES TRUE)
 endif()
 SET(SFML_BUILD_TYPE "Release")
@@ -19,13 +19,13 @@ set(APP_SRC_FILES
 )
 
 find_package(SFML COMPONENTS audio graphics window system REQUIRED)
-if (WIN32)
+if (CMAKE_SYSTEM_NAME MATCHES "Windows")
 	add_executable(${PROJECT_NAME} WIN32 ${APP_SRC_FILES} $<$<PLATFORM_ID:Windows>:${APP_ICON_RC}>)
 else()
 	add_executable(${PROJECT_NAME} ${APP_SRC_FILES} $<$<PLATFORM_ID:Windows>:${APP_ICON_RC}>)
 endif()	
 
-target_link_libraries(${PROJECT_NAME} sfml-audio sfml-graphics sfml-window sfml-system)
+target_link_libraries(${PROJECT_NAME} sfml-audio sfml-graphics sfml-window sfml-system $<$<PLATFORM_ID:Windows>:-static-libgcc -static-libstdc++ -Wl,-Bstatic -lstdc++ -lpthread -Wl,-Bdynamic>)
 target_include_directories(${PROJECT_NAME} PRIVATE include)
 
 add_custom_command(TARGET ${PROJECT_NAME} POST_BUILD
@@ -34,7 +34,7 @@ add_custom_command(TARGET ${PROJECT_NAME} POST_BUILD
 	COMMAND ${CMAKE_COMMAND} -E copy_directory ${PROJECT_SOURCE_DIR}/sfx $<TARGET_FILE_DIR:${PROJECT_NAME}>/sfx)
 add_custom_command(TARGET ${PROJECT_NAME} POST_BUILD
 	COMMAND ${CMAKE_COMMAND} -E copy ${PROJECT_SOURCE_DIR}/november.ttf $<TARGET_FILE_DIR:${PROJECT_NAME}>)
-if (WIN32)
+if (CMAKE_SYSTEM_NAME MATCHES Windows)
 	add_custom_command(TARGET ${PROJECT_NAME} POST_BUILD
 		COMMAND ${CMAKE_COMMAND} -E copy ${PROJECT_SOURCE_DIR}/libs/${SFML_NAME}/bin/openal32.dll 
 		$<TARGET_FILE_DIR:${PROJECT_NAME}>)
@@ -44,7 +44,7 @@ install(TARGETS ${PROJECT_NAME} DESTINATION ".")
 install(DIRECTORY ${PROJECT_SOURCE_DIR}/gfx DESTINATION ".")
 install(DIRECTORY ${PROJECT_SOURCE_DIR}/sfx DESTINATION ".")
 install(FILES ${PROJECT_SOURCE_DIR}/november.ttf 
-	$<$<PLATFORM_ID:WIN32>:${PROJECT_SOURCE_DIR}/libs/${SFML_NAME}/bin/openal32.dll> 
+	$<$<PLATFORM_ID:Windows>:${PROJECT_SOURCE_DIR}/libs/${SFML_NAME}/bin/openal32.dll> 
 	DESTINATION ".")
 
 set(CPACK_RESOURCE_FILE_LICENSE "${PROJECT_SOURCE_DIR}/LICENSE")
