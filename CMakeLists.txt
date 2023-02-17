@@ -44,7 +44,8 @@ endif()
 install(TARGETS ${PROJECT_NAME} DESTINATION ".")
 install(DIRECTORY ${PROJECT_SOURCE_DIR}/gfx DESTINATION ".")
 install(DIRECTORY ${PROJECT_SOURCE_DIR}/sfx DESTINATION ".")
-install(FILES ${PROJECT_SOURCE_DIR}/november.ttf 
+install(FILES ${PROJECT_SOURCE_DIR}/november.ttf
+	${PROJECT_SOURCE_DIR}/LICENSE
 	$<$<PLATFORM_ID:Windows>:${PROJECT_SOURCE_DIR}/libs/${SFML_NAME}/bin/openal32.dll> 
 	DESTINATION ".")
 
