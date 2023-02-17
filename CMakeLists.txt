@@ -25,7 +25,8 @@ else()
 	add_executable(${PROJECT_NAME} ${APP_SRC_FILES} $<$<PLATFORM_ID:Windows>:${APP_ICON_RC}>)
 endif()	
 
-target_link_libraries(${PROJECT_NAME} sfml-audio sfml-graphics sfml-window sfml-system $<$<PLATFORM_ID:Windows>:-static-libgcc -static-libstdc++ -Wl,-Bstatic -lstdc++ -lpthread -Wl,-Bdynamic>)
+target_link_libraries(${PROJECT_NAME} sfml-audio sfml-graphics sfml-window sfml-system 
+	$<$<PLATFORM_ID:Windows>:-static-libgcc -static-libstdc++ -Wl,-Bstatic -lstdc++ -lpthread -Wl,-Bdynamic>)
 target_include_directories(${PROJECT_NAME} PRIVATE include)
 
 add_custom_command(TARGET ${PROJECT_NAME} POST_BUILD
@@ -47,7 +48,19 @@ install(FILES ${PROJECT_SOURCE_DIR}/november.ttf
 	$<$<PLATFORM_ID:Windows>:${PROJECT_SOURCE_DIR}/libs/${SFML_NAME}/bin/openal32.dll> 
 	DESTINATION ".")
 
+set(CPACK_GENERATOR "NSIS")
 set(CPACK_RESOURCE_FILE_LICENSE "${PROJECT_SOURCE_DIR}/LICENSE")
 set(CPACK_PACKAGE_NAME "snake_game_by_zEuS0390")
 set(CPACK_PACKAGE_VERSION ${PROJECT_VERSION})
+if (CPACK_GENERATOR MATCHES "NSIS")
+	list(APPEND CPACK_NSIS_CREATE_ICONS_EXTRA
+		"CreateShortCut '$SMPROGRAMS\\\\$STARTMENU_FOLDER\\\\${PROJECT_NAME}.lnk' '$INSTDIR\\\\${PROJECT_NAME}.exe'"
+		"CreateShortCut '$DESKTOP\\\\${PROJECT_NAME}.lnk' '$INSTDIR\\\\${PROJECT_NAME}.exe'")
+	list(APPEND CPACK_NSIS_DELETE_ICONS_EXTRA
+		"Delete '$SMPROGRAMS\\\\$START_MENU\\\\${PROJECT_NAME}.lnk'"
+		"Delete '$DESKTOP\\\\${PROJECT_NAME}.lnk'")
+endif()
+string(REPLACE ";" "\n" CPACK_NSIS_CREATE_ICONS_EXTRA "${CPACK_NSIS_CREATE_ICONS_EXTRA}")
+string(REPLACE ";" "\n" CPACK_NSIS_DELETE_ICONS_EXTRA "${CPACK_NSIS_DELETE_ICONS_EXTRA}")
+
 include(CPack)
