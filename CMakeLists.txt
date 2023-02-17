@@ -1,5 +1,5 @@
 cmake_minimum_required(VERSION 3.21)
-project(snake_game_by_zEuS0390 VERSION 1.2.0)
+project(snake_game_by_zEuS0390 VERSION 1.3.0)
 
 set(CMAKE_CXX_STANDARD 17)
 set(SFML_NAME "SFML-2.5.1")
@@ -7,7 +7,7 @@ set(SFML_DIR "libs/${SFML_NAME}/lib/cmake/SFML")
 if (CMAKE_SYSTEM_NAME MATCHES "Windows")
 	set(SFML_STATIC_LIBRARIES TRUE)
 endif()
-SET(SFML_BUILD_TYPE "Release")
+set(SFML_BUILD_TYPE "Release")
 set(CMAKE_RUNTIME_OUTPUT_DIRECTORY "${CMAKE_BINARY_DIR}/bin")
 set(APP_ICON_RC "${CMAKE_SOURCE_DIR}/rc/icon.rc")
 set(APP_SRC_FILES
