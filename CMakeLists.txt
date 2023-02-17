@@ -21,16 +21,12 @@ set(APP_SRC_FILES
 find_package(SFML COMPONENTS audio graphics window system REQUIRED)
 if (CMAKE_SYSTEM_NAME MATCHES "Windows")
 	add_executable(${PROJECT_NAME} WIN32 ${APP_SRC_FILES} $<$<PLATFORM_ID:Windows>:${APP_ICON_RC}>)
-else()
-	add_executable(${PROJECT_NAME} ${APP_SRC_FILES} $<$<PLATFORM_ID:Windows>:${APP_ICON_RC}>)
-endif()	
-
-if (CMAKE_SYSTEM_NAME MATCHES "Windows")
 	target_link_libraries(${PROJECT_NAME} sfml-audio sfml-graphics sfml-window sfml-system 
 		-static-libgcc -static-libstdc++ -Wl,-Bstatic -lstdc++ -lpthread -Wl,-Bdynamic)
 else()
+	add_executable(${PROJECT_NAME} ${APP_SRC_FILES})
 	target_link_libraries(${PROJECT_NAME} sfml-audio sfml-graphics sfml-window sfml-system)
-endif()
+endif()	
 target_include_directories(${PROJECT_NAME} PRIVATE include)
 
 add_custom_command(TARGET ${PROJECT_NAME} POST_BUILD
@@ -63,8 +59,8 @@ if (CPACK_GENERATOR MATCHES "NSIS")
 	list(APPEND CPACK_NSIS_DELETE_ICONS_EXTRA
 		"Delete '$SMPROGRAMS\\\\$START_MENU\\\\${PROJECT_NAME}.lnk'"
 		"Delete '$DESKTOP\\\\${PROJECT_NAME}.lnk'")
+	string(REPLACE ";" "\n" CPACK_NSIS_CREATE_ICONS_EXTRA "${CPACK_NSIS_CREATE_ICONS_EXTRA}")
+	string(REPLACE ";" "\n" CPACK_NSIS_DELETE_ICONS_EXTRA "${CPACK_NSIS_DELETE_ICONS_EXTRA}")
 endif()
-string(REPLACE ";" "\n" CPACK_NSIS_CREATE_ICONS_EXTRA "${CPACK_NSIS_CREATE_ICONS_EXTRA}")
-string(REPLACE ";" "\n" CPACK_NSIS_DELETE_ICONS_EXTRA "${CPACK_NSIS_DELETE_ICONS_EXTRA}")
 
 include(CPack)
