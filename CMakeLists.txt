@@ -25,8 +25,12 @@ else()
 	add_executable(${PROJECT_NAME} ${APP_SRC_FILES} $<$<PLATFORM_ID:Windows>:${APP_ICON_RC}>)
 endif()	
 
-target_link_libraries(${PROJECT_NAME} sfml-audio sfml-graphics sfml-window sfml-system 
-	$<$<PLATFORM_ID:Windows>:-static-libgcc -static-libstdc++ -Wl,-Bstatic -lstdc++ -lpthread -Wl,-Bdynamic>)
+if (CMAKE_SYSTEM_NAME MATCHES "Windows")
+	target_link_libraries(${PROJECT_NAME} sfml-audio sfml-graphics sfml-window sfml-system 
+		-static-libgcc -static-libstdc++ -Wl,-Bstatic -lstdc++ -lpthread -Wl,-Bdynamic)
+else()
+	target_link_libraries(${PROJECT_NAME} sfml-audio sfml-graphics sfml-window sfml-system)
+endif()
 target_include_directories(${PROJECT_NAME} PRIVATE include)
 
 add_custom_command(TARGET ${PROJECT_NAME} POST_BUILD
