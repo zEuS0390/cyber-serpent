@@ -25,9 +25,9 @@ jobs:
       run: |
         if [ ${{matrix.os}} == 'ubuntu-latest' ]; then
           sudo apt install libsfml-dev
-          cmake -DCMAKE_BUILD_TYPE=${{env.BUILD_TYPE}} -DSNAKE_GENERATE_INSTALLER=TRUE
+          cmake .. -DCMAKE_BUILD_TYPE=${{env.BUILD_TYPE}} -DSNAKE_GENERATE_INSTALLER=TRUE
         elif [ ${{matrix.os}} == 'windows-latest' ]; then
-          cmake -G "MinGW Makefiles" -DCMAKE_BUILD_TYPE=${{env.BUILD_TYPE}} -DSNAKE_GENERATE_INSTALLER=TRUE -DSNAKE_AUTO_DOWNLOAD=TRUE
+          cmake -G "MinGW Makefiles" .. -DCMAKE_BUILD_TYPE=${{env.BUILD_TYPE}} -DSNAKE_GENERATE_INSTALLER=TRUE -DSNAKE_AUTO_DOWNLOAD=TRUE
         fi
       shell: bash
 
