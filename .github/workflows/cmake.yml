@@ -1,0 +1,47 @@
+name: CMake
+
+on:
+  push:
+    branches: [ "main", "automate-workflow" ]
+  pull_request:
+    branches: [ "main", "automate-workflow" ]
+
+env:
+  BUILD_TYPE: Release
+
+jobs:
+  build:
+    runs-on: ${{ matrix.os }}
+    
+    strategy:
+      matrix:
+        os: [ubuntu-latest,windows-latest]  
+        
+    steps:
+    - uses: actions/checkout@v3
+
+    - name: Configure CMake
+      working-directory: ${{github.workspace}}/build
+      run: |
+        if [ ${{matrix.os}} == 'ubuntu-latest' ]; then
+          sudo apt install libsfml-dev
+          cmake .. -DCMAKE_BUILD_TYPE=${{env.BUILD_TYPE}} -DSNAKE_GENERATE_INSTALLER=TRUE
+        elif [ ${{matrix.os}} == 'windows-latest' ]; then
+          cmake -G "MinGW Makefiles" .. -DCMAKE_BUILD_TYPE=${{env.BUILD_TYPE}} -DSNAKE_GENERATE_INSTALLER=TRUE -DSNAKE_AUTO_DOWNLOAD=TRUE
+        fi
+      shell: bash
+
+    - name: Build Program
+      # Build your program with the given configuration
+      run: cmake --build ${{github.workspace}}/build --config ${{env.BUILD_TYPE}}
+      
+    - name: Build Installer
+      working-directory: ${{github.workspace}}/build
+      run: |
+        if [ ${{ matrix.os }} == 'ubuntu-latest' ]; then
+          cpack -G "TGZ"
+        elif [ ${{ matrix.os }} == 'windows-latest' ]; then
+          choco install nsis
+          cpack -G "NSIS;ZIP"
+        fi
+      shell: bash
