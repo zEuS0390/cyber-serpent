@@ -2,9 +2,9 @@ name: CMake
 
 on:
   push:
-    branches: [ "main", "automate-workflow" ]
+    branches: [ "main" ]
   pull_request:
-    branches: [ "main", "automate-workflow" ]
+    branches: [ "main" ]
 
 env:
   BUILD_TYPE: Release
@@ -32,7 +32,6 @@ jobs:
       shell: bash
 
     - name: Build Program
-      # Build your program with the given configuration
       run: cmake --build ${{github.workspace}}/build --config ${{env.BUILD_TYPE}}
       
     - name: Build Installer
