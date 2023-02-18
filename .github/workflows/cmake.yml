@@ -26,7 +26,7 @@ jobs:
           sudo apt install libsfml-dev
           cmake -B ${{github.workspace}}/build -DCMAKE_BUILD_TYPE=${{env.BUILD_TYPE}} -DSNAKE_GENERATE_INSTALLER=TRUE
         elif [ ${{ matrix.os }} == 'windows-latest' ]; then
-          cmake -B ${{github.workspace}}/build -DCMAKE_BUILD_TYPE=${{env.BUILD_TYPE}} -DSNAKE_GENERATE_INSTALLER=TRUE -DSNAKE_AUTO_DOWNLOAD=TRUE
+          cmake -G "MinGW Makefiles" -B ${{github.workspace}}/build -DCMAKE_BUILD_TYPE=${{env.BUILD_TYPE}} -DSNAKE_GENERATE_INSTALLER=TRUE -DSNAKE_AUTO_DOWNLOAD=TRUE
         fi
       shell: bash
 
