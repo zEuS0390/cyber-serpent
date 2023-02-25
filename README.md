@@ -3,11 +3,11 @@
 Demo Video: https://youtu.be/nnagibXqy0g
 
 ## How to Build?
-1. Download the latest version of [SFML 2.x](https://www.sfml-dev.org/download.php), make sure it is compatible to your platform.
-2. Extract and place it in the libs directory.
+1. Download the latest version of [SFML 2.x](https://www.sfml-dev.org/download.php), make sure it is compatible to your platform. After that, extract and place it in the libs directory. If you want to let the CMake handle it for you, just set the ```SNAKE_AUTO_DOWNLOAD``` to ```TRUE```.
 3. Open the terminal or command prompt and navigate to the project's build directory.
-4. Execute the command ```cmake ..``` followed by ```mingw32-make``` or ```cmake --build .```
-5. A bin directory will be created, which contains the executable program. Go there and run it.
+4. Proceed to step 5 if you're not using Linux. Install the required dependency ```libopenal-dev```.
+5. Execute the command ```cmake ..``` followed by ```mingw32-make```, ```cmake --build .``` or ```make```.
+6. A bin directory will be created, which contains the executable program. Go there and run it.
 
 ## Screenshots
 <p align="center">
