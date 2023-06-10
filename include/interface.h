@@ -27,7 +27,7 @@ class Interface {
         void option (int);
         std::string intToStr (int);
     private:
-        void frame (void);
+        void frame ();
     private:
         sf::RenderWindow*   window;
         sf::Color           color;

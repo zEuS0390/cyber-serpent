@@ -34,7 +34,7 @@ snakeGame::snakeGame (const unsigned int winX,
 }
 
 // Main loop of the game
-void snakeGame::mainLoop (void) {
+void snakeGame::mainLoop () {
     window.setFramerateLimit(10);
     while (isRunning) {
         float time = clock.getElapsedTime().asSeconds();
@@ -46,7 +46,7 @@ void snakeGame::mainLoop (void) {
 }
 
 // Handles events of the game
-void snakeGame::events (void) {
+void snakeGame::events () {
     sf::Event event;
     while (window.pollEvent(event)) {
         if (event.type == sf::Event::Closed) {
@@ -122,7 +122,7 @@ void snakeGame::events (void) {
 }
 
 // Handles updates of the game
-void snakeGame::updates (void) {
+void snakeGame::updates () {
     if (snakeObj.isMoving) {
         snakeObj.movement(winGrid.scale);
     }
@@ -159,7 +159,7 @@ void snakeGame::render (float time) {
 }
 
 // Render the grid with different colors
-void snakeGame::renderGrid (void) {
+void snakeGame::renderGrid () {
     std::vector<line> vertLines = winGrid.getVertLines();
     std::vector<line> horiLines = winGrid.getHoriLines();
     sf::Color color;
@@ -190,7 +190,7 @@ void snakeGame::renderGrid (void) {
 }
 
 // Renders the snake object
-void snakeGame::renderSnake (void) {
+void snakeGame::renderSnake () {
     snakeRects.clear();
     for (unsigned int i = 0; i < snakeObj.snakePos.size(); i++) {
         sf::RectangleShape* shape = new sf::RectangleShape(sf::Vector2f(winGrid.scale, winGrid.scale));
@@ -252,7 +252,7 @@ void snakeGame::renderSnake (void) {
     return;
 }
 
-void snakeGame::resetGame (void) {
+void snakeGame::resetGame () {
     menuClock.restart();
     scoreClock.restart();
     anim.total = 0;

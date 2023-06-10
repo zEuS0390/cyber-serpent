@@ -11,7 +11,7 @@ food::food (sf::Vector2f rectSize, unsigned int scale)
     setFillColor(sf::Color(0, 255, 0));
 }
 
-void food::setRandomPosition (void) {
+void food::setRandomPosition () {
     while (true) {
         std::uniform_int_distribution<int> distrX(scale, 640-scale*2);
         std::uniform_int_distribution<int> distrY(scale, 480-scale*2);

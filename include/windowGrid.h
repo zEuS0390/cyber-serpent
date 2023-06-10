@@ -20,8 +20,8 @@ class windowGrid {
     public:
         unsigned int scale;
         windowGrid(const unsigned int, const unsigned int);
-        std::vector<line> getVertLines(void);
-        std::vector<line> getHoriLines(void);
+        std::vector<line> getVertLines();
+        std::vector<line> getHoriLines();
     private:
         std::vector<line> vertLines;
         std::vector<line> horiLines;

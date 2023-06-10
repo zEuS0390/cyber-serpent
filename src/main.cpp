@@ -15,7 +15,7 @@ struct axes {
 };
 
 // Main execution of the program
-int main (void) {
+int main () {
     struct axes windowSize = {640, 480};
     snakeGame sg(windowSize.x, windowSize.y, "Snake Game");
     return 0;

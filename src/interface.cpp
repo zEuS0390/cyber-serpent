@@ -91,7 +91,7 @@ std::string Interface::intToStr (int number) {
     return s;
 }
 
-void Interface::frame (void) {
+void Interface::frame () {
     frameObj.setFillColor(sf::Color(0, 75, 0));
     frameObj.setPosition(framePos);
     window->draw(frameObj);

@@ -11,7 +11,7 @@ class food: public sf::RectangleShape {
         unsigned int scale;
     public:
         food                    (sf::Vector2f, unsigned int);
-        void setRandomPosition  (void);
+        void setRandomPosition  ();
     private:
         std::mt19937 eng;
 };

@@ -31,13 +31,13 @@ class snakeGame {
         bool isRunning;
         bool isHit;
     private:
-        void updates                (void);
-        void events                 (void);
+        void updates                ();
+        void events                 ();
         void render                 (float);
-        void mainLoop               (void);
-        void renderGrid             (void);
-        void renderSnake            (void);
-        void resetGame              (void);
+        void mainLoop               ();
+        void renderGrid             ();
+        void renderSnake            ();
+        void resetGame              ();
     private:
         std::vector<sf::RectangleShape> snakeRects;
     private:

@@ -34,10 +34,10 @@ windowGrid::windowGrid (unsigned int winX, unsigned int winY)
     }
 }
 
-std::vector<line> windowGrid::getVertLines (void) {
+std::vector<line> windowGrid::getVertLines () {
     return vertLines;
 }
 
-std::vector<line> windowGrid::getHoriLines (void) {
+std::vector<line> windowGrid::getHoriLines () {
     return horiLines;
 }

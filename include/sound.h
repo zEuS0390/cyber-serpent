@@ -9,7 +9,7 @@ class sound {
         std::string name;
         sound (std::string, std::string);
     public:
-        void playSound  (void);
+        void playSound  ();
         void setPitch   (float);
     private:
         void init       (std::string);
@@ -21,12 +21,12 @@ class sound {
 // soundManager class
 class SoundManager {
     public:
-        SoundManager                (void);
-        ~SoundManager               (void);
-        void audioInit              (void);
+        SoundManager                ();
+        ~SoundManager               ();
+        void audioInit              ();
         void playAudio              (std::string);
         void setPitch               (std::string, float);
-        void terminateAudioThreads  (void);
+        void terminateAudioThreads  ();
     private:
         std::vector<sound*> audioCont;
 };

@@ -14,7 +14,7 @@ intro::intro (sf::RenderWindow* renderWin)
     renderWin->setMouseCursorVisible(false);
 }
 
-void intro::init (void) {
+void intro::init () {
     if (!sfmlLogo.loadFromFile("gfx/SFML_Logo.png")) {
         return;
     }
@@ -29,7 +29,7 @@ void intro::init (void) {
     return;
 }
 
-void intro::updates (void) {
+void intro::updates () {
     if (fadeIn) {
         if (isSFML) {
             if (alpha <= 255) {
@@ -72,7 +72,7 @@ void intro::updates (void) {
     return;
 }
 
-void intro::events (void) {
+void intro::events () {
     sf::Event event;
     while (renderWin->pollEvent(event)) {
         if (event.type == sf::Event::KeyPressed) {
@@ -83,14 +83,14 @@ void intro::events (void) {
     return;
 }
 
-void intro::renders (void) {
+void intro::renders () {
     renderWin->clear();
     renderWin->draw(sprite);
     renderWin->display();
     return;
 }
 
-void intro::loop (void) {
+void intro::loop () {
     while (isRunning) {
         events();
         updates();

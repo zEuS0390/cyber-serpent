@@ -3,7 +3,7 @@
 #include <iostream>
 
 // snake class constructor
-snake::snake(void)
+snake::snake()
 :   isMoving(false),
     dir{false, false, false, true} {
 }
@@ -26,7 +26,7 @@ void snake::movement (int speed) {
     return;
 }
 
-void snake::increment (void) {
+void snake::increment () {
     sf::Vector2f temp = sf::Vector2f(snakePos.front().x, snakePos.front().y);
     snakePos.insert(snakePos.begin(), temp);
     return;

@@ -14,11 +14,11 @@ class intro {
     public:
         intro               (sf::RenderWindow*);
     public:
-        void init           (void);
-        void updates        (void);
-        void events         (void);
-        void renders        (void);
-        void loop           (void);
+        void init           ();
+        void updates        ();
+        void events         ();
+        void renders        ();
+        void loop           ();
     private:
         sf::Clock           clock;
         sf::RenderWindow*   renderWin;

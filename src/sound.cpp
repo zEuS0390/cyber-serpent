@@ -8,7 +8,7 @@ sound::sound (std::string name, std::string filepath)
         init(filepath);
 }
 
-void sound::playSound (void) {
+void sound::playSound () {
     soundObj.play();
     return;
 }
@@ -28,15 +28,15 @@ void sound::init (std::string filepath) {
     return;
 }
 
-SoundManager::SoundManager (void) {
+SoundManager::SoundManager () {
     audioInit();
 }
 
-SoundManager::~SoundManager (void) {
+SoundManager::~SoundManager () {
     terminateAudioThreads();
 }
 
-void SoundManager::audioInit (void) {
+void SoundManager::audioInit () {
     audioCont.push_back(new sound("dead", "sfx/dead.wav"));
     audioCont.push_back(new sound("food", "sfx/food.wav"));
     audioCont.push_back(new sound("portal", "sfx/portal.wav"));
@@ -66,7 +66,7 @@ void SoundManager::setPitch (std::string name, float pitch) {
     }
 }
 
-void SoundManager::terminateAudioThreads (void) {
+void SoundManager::terminateAudioThreads () {
     while (!audioCont.empty()) {
         delete audioCont.back();
         audioCont.pop_back();
