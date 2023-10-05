@@ -1,6 +1,8 @@
 # SFML Snake Game
 
-Demo Video: https://youtu.be/nnagibXqy0g
+<b>Demo Video:</b> https://youtu.be/nnagibXqy0g
+<br>
+<b>Download Latest Release:</b> https://github.com/zEuS0390/cpp-sfml-snake-game/releases/latest
 
 ## How to Build?
 1. Download the latest version of [SFML 2.x](https://www.sfml-dev.org/download.php), make sure it is compatible to your platform. After that, extract and place it in the libs directory. If you want to let the CMake handle it for you, just set the ```SNAKE_AUTO_DOWNLOAD``` to ```TRUE```.
