@@ -1,30 +1,20 @@
+# Set minimum required CMake version
 cmake_minimum_required(VERSION 3.21)
-project(snake_game_by_zEuS0390 VERSION 1.3.0)
 
-option(SNAKE_AUTO_DOWNLOAD "Download automatically during build" FALSE)
-option(SNAKE_GENERATE_INSTALLER "Generate an installer" FALSE)
+# Project name and version
+project(snake_game_by_zEuS0390 VERSION 1.3.1)
 
-# Declare variables
+# Options for the project
+option(SNAKE_GENERATE_INSTALLER "Generate Installer (NSIS)" FALSE)
+option(BUILD_SHARED_LIBS "Build Shared Libs" OFF)
+
+# Set C++ standard
 set(CMAKE_CXX_STANDARD 17)
-set(SFML_NAME "SFML-2.5.1")
-set(SFML_SITE "https://www.sfml-dev.org/files")
-set(SFML_DIR "libs/${SFML_NAME}/lib/cmake/SFML")
-if (CMAKE_SYSTEM_NAME MATCHES "Windows")
-	set(SFML_STATIC_LIBRARIES TRUE)
-	if (MINGW)
-		if (CMAKE_SIZEOF_VOID_P EQUAL 8)
-			set(SFML_ARCHIVE "SFML-2.5.1-windows-gcc-7.3.0-mingw-64-bit.zip")
-		elseif (CMAKE_SIZEOF_VOID_P EQUAL 4)
-			set(SFML_ARCHIVE "SFML-2.5.1-windows-gcc-7.3.0-mingw-32-bit.zip")
-		endif()
-	endif()
-elseif (CMAKE_SYSTEM_NAME MATCHES "Linux")
-	if (CMAKE_SYSTEM_PROCESSOR MATCHES "x86_64")
-		set(SFML_ARCHIVE "SFML-2.5.1-linux-gcc-64-bit.tar.gz")
-	endif()
-endif()
-set(SFML_BUILD_TYPE "Release")
+
+# Set output directory for binaries
 set(CMAKE_RUNTIME_OUTPUT_DIRECTORY "${CMAKE_BINARY_DIR}/bin")
+
+# Define source files
 set(APP_ICON_RC "${CMAKE_SOURCE_DIR}/rc/icon.rc")
 set(APP_SRC_FILES
 	src/anim.cpp src/food.cpp
@@ -34,51 +24,63 @@ set(APP_SRC_FILES
 	src/sound.cpp src/windowGrid.cpp
 )
 
-# Download the SFML library and store it in the libs folder
-if (SNAKE_AUTO_DOWNLOAD)
-	if (NOT EXISTS "${PROJECT_SOURCE_DIR}/libs/${SFML_NAME}")
-		message("Downloading ${SFML_NAME} library")
-		file(DOWNLOAD "${SFML_SITE}/${SFML_ARCHIVE}" 
-			"${PROJECT_SOURCE_DIR}/libs/${SFML_ARCHIVE}" SHOW_PROGRESS)
-		file(ARCHIVE_EXTRACT INPUT "${PROJECT_SOURCE_DIR}/libs/${SFML_ARCHIVE}"
-			DESTINATION "${PROJECT_SOURCE_DIR}/libs/")
-		file(REMOVE "${PROJECT_SOURCE_DIR}/libs/${SFML_ARCHIVE}")
-	else()
-		message("${SFML_NAME} library already exist.")
-	endif()
-endif()
+# Include SFML using FetchContent
+include(FetchContent)
+FetchContent_Declare(SFML
+	GIT_REPOSITORY https://github.com/SFML/SFML.git
+	GIT_TAG 2.6.x)
+FetchContent_MakeAvailable(SFML)
 
-# Find the SFML configuration file in the ${SFML_DIR} (inside of SFML library)
-find_package(SFML COMPONENTS audio graphics window system REQUIRED)
+# Configure build based on platform
 if (CMAKE_SYSTEM_NAME MATCHES "Windows")
+	# Windows specific settings
 	add_executable(${PROJECT_NAME} WIN32 ${APP_SRC_FILES} $<$<PLATFORM_ID:Windows>:${APP_ICON_RC}>)
 	target_link_libraries(${PROJECT_NAME} sfml-audio sfml-graphics sfml-window sfml-system 
 		-static-libgcc -static-libstdc++ -Wl,-Bstatic -lstdc++ -lpthread -Wl,-Bdynamic)
 else()
+	# Other platforms (assuming Unix-like)
 	add_executable(${PROJECT_NAME} ${APP_SRC_FILES})
 	target_link_libraries(${PROJECT_NAME} sfml-audio sfml-graphics sfml-window sfml-system)
 endif()	
+
+# Set include directories
 target_include_directories(${PROJECT_NAME} PRIVATE include)
 
-add_custom_command(TARGET ${PROJECT_NAME} POST_BUILD
-	COMMAND ${CMAKE_COMMAND} -E copy_directory ${PROJECT_SOURCE_DIR}/gfx $<TARGET_FILE_DIR:${PROJECT_NAME}>/gfx)
-add_custom_command(TARGET ${PROJECT_NAME} POST_BUILD
+# Copy directories and files before build
+add_custom_command(
+	TARGET ${PROJECT_NAME} 
+	PRE_BUILD
+	COMMAND ${CMAKE_COMMAND} 
+	-E copy_directory ${PROJECT_SOURCE_DIR}/gfx $<TARGET_FILE_DIR:${PROJECT_NAME}>/gfx)
+
+add_custom_command(
+	TARGET ${PROJECT_NAME} 
+	PRE_BUILD
 	COMMAND ${CMAKE_COMMAND} -E copy_directory ${PROJECT_SOURCE_DIR}/sfx $<TARGET_FILE_DIR:${PROJECT_NAME}>/sfx)
-add_custom_command(TARGET ${PROJECT_NAME} POST_BUILD
+
+add_custom_command(
+	TARGET ${PROJECT_NAME} 
+	PRE_BUILD
 	COMMAND ${CMAKE_COMMAND} -E copy ${PROJECT_SOURCE_DIR}/november.ttf $<TARGET_FILE_DIR:${PROJECT_NAME}>)
-if (CMAKE_SYSTEM_NAME MATCHES Windows)
-	add_custom_command(TARGET ${PROJECT_NAME} POST_BUILD
-		COMMAND ${CMAKE_COMMAND} -E copy ${PROJECT_SOURCE_DIR}/libs/${SFML_NAME}/bin/openal32.dll 
-		$<TARGET_FILE_DIR:${PROJECT_NAME}>)
+
+# Additional copy for Windows (specifically openal32.dll)
+if (CMAKE_SYSTEM_NAME MATCHES "Windows")
+	add_custom_command(
+		TARGET ${PROJECT_NAME}
+		PRE_BUILD
+		COMMAND ${CMAKE_COMMAND} -E copy ${SFML_SOURCE_DIR}/extlibs/bin/$<IF:$<EQUAL:${CMAKE_SIZEOF_VOID_P},8>,x64,x86>/openal32.dll $<TARGET_FILE_DIR:${PROJECT_NAME}>
+		VERBATIM)
 endif()
 
+# Generate NSIS installer if enabled
 if (SNAKE_GENERATE_INSTALLER)
 	install(TARGETS ${PROJECT_NAME} DESTINATION ".")
 	install(DIRECTORY ${PROJECT_SOURCE_DIR}/gfx DESTINATION ".")
 	install(DIRECTORY ${PROJECT_SOURCE_DIR}/sfx DESTINATION ".")
-	install(FILES ${PROJECT_SOURCE_DIR}/november.ttf
+	install(FILES 
+		${PROJECT_SOURCE_DIR}/november.ttf
 		${PROJECT_SOURCE_DIR}/LICENSE
-		$<$<PLATFORM_ID:Windows>:${PROJECT_SOURCE_DIR}/libs/${SFML_NAME}/bin/openal32.dll> 
+		$<$<PLATFORM_ID:Windows>:${SFML_SOURCE_DIR}/extlibs/bin/$<IF:$<EQUAL:${CMAKE_SIZEOF_VOID_P},8>,x64,x86>/openal32.dll> 
 		DESTINATION ".")
 	set(CPACK_GENERATOR "NSIS")
 	set(CPACK_RESOURCE_FILE_LICENSE "${PROJECT_SOURCE_DIR}/LICENSE")
