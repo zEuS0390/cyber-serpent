@@ -38,7 +38,7 @@ jobs:
             libegl1-mesa-dev
           cmake -S . -B build -DCMAKE_BUILD_TYPE=${{env.BUILD_TYPE}} -DSNAKE_GENERATE_INSTALLER=TRUE
         elif [ ${{matrix.os}} == 'windows-latest' ]; then
-          cmake -S . -B build -G "MinGW Makefiles" -DCMAKE_BUILD_TYPE=${{env.BUILD_TYPE}} -DSNAKE_GENERATE_INSTALLER=TRUE -DSNAKE_AUTO_DOWNLOAD=TRUE
+          cmake -S . -B build -G "MinGW Makefiles" -DCMAKE_BUILD_TYPE=${{env.BUILD_TYPE}} -DSNAKE_GENERATE_INSTALLER=TRUE
         fi
       shell: bash
 
