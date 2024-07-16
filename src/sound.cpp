@@ -3,29 +3,30 @@
 #include <string>
 #include "sound.h"
 
-sound::sound (std::string name, std::string filepath)
+using std::string;
+using std::cout;
+using std::endl;
+
+sound::sound (string name, string filepath)
 :   name(name) {
         init(filepath);
 }
 
 void sound::playSound () {
     soundObj.play();
-    return;
 }
 
 void sound::setPitch (float pitch) {
     soundObj.setPitch(pitch);
-    return;
 }
 
-void sound::init (std::string filepath) {
+void sound::init (string filepath) {
     if (!buffer.loadFromFile(filepath)) {
-        std::cout << "Error loading sound file." << std::endl;
+        cout << "Error loading sound file." << endl;
         return;
     }
     soundObj.setBuffer(buffer);
     soundObj.setVolume(50.0f);
-    return;
 }
 
 SoundManager::SoundManager () {
@@ -46,23 +47,19 @@ void SoundManager::audioInit () {
     audioCont.push_back(new sound("button_enter", "sfx/button_enter.wav"));
     audioCont.push_back(new sound("quit", "sfx/quit.wav"));
     audioCont.push_back(new sound("blip", "sfx/blip.wav"));
-    return;
 }
 
-void SoundManager::playAudio (std::string name) {
+void SoundManager::playAudio (string name) {
     for (unsigned int index = 0; index < audioCont.size(); index++) {
-        if (name == audioCont[index]->name) {
+        if (name == audioCont[index]->name)
             audioCont[index]->playSound();
-        }
     }
-    return;
 }
 
-void SoundManager::setPitch (std::string name, float pitch) {
+void SoundManager::setPitch (string name, float pitch) {
     for (unsigned int index = 0; index < audioCont.size(); index++) {
-        if (name == audioCont[index]->name) {
+        if (name == audioCont[index]->name)
             audioCont[index]->setPitch(pitch);
-        }
     }
 }
 
@@ -71,5 +68,4 @@ void SoundManager::terminateAudioThreads () {
         delete audioCont.back();
         audioCont.pop_back();
     }
-    return;
 }

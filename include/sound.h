@@ -1,21 +1,23 @@
 #ifndef SOUND_H
 #define SOUND_H
+
 #include <SFML/Audio.hpp>
 #include <string>
+
+using std::string;
+using std::vector;
 
 // sound class
 class sound {
     public:
-        std::string name;
-        sound (std::string, std::string);
-    public:
+        string name;
+        sound (string, string);
         void playSound  ();
         void setPitch   (float);
     private:
-        void init       (std::string);
-    private:
         sf::SoundBuffer buffer;
         sf::Sound       soundObj;
+	void init       (string);
 };
 
 // soundManager class
@@ -24,11 +26,11 @@ class SoundManager {
         SoundManager                ();
         ~SoundManager               ();
         void audioInit              ();
-        void playAudio              (std::string);
-        void setPitch               (std::string, float);
+        void playAudio              (string);
+        void setPitch               (string, float);
         void terminateAudioThreads  ();
     private:
-        std::vector<sound*> audioCont;
+        vector<sound*> audioCont;
 };
 
 #endif

@@ -1,17 +1,24 @@
 #ifndef INTERFACE_H
 #define INTERFACE_H
+
 #include <SFML/Graphics.hpp>
 #include <string>
 
+using std::string;
+using sf::Text;
+using sf::Color;
+using sf::Font;
+using sf::RenderWindow;
+using sf::Clock;
+using sf::RectangleShape;
+using sf::Vector2f;
+
 // interfaceText class (inherits sf::Text class)
-class interfaceText : public sf::Text {
+class interfaceText : public Text {
     public:
-        interfaceText (std::string,
-                       std::string,
-                       int,
-                       sf::Color);
+        interfaceText (string, string, int, Color);
     private:
-        sf::Font font;
+        Font font;
 };
 
 // interface class
@@ -20,31 +27,31 @@ class Interface {
         bool isMenu;
         int menuSelect;
     public:
-        Interface (sf::RenderWindow*);
+        Interface (RenderWindow*);
     public:
-        void check (std::string);
-        void menu (sf::Clock&);
+        void check (string);
+        void menu (Clock&);
         void option (int);
-        std::string intToStr (int);
+        string intToStr (int);
     private:
         void frame ();
     private:
-        sf::RenderWindow*   window;
-        sf::Color           color;
+        RenderWindow*   window;
+        Color           color;
         // Frame Object
-        sf::RectangleShape  frameObj;
-        sf::Vector2f        framePos;
+        RectangleShape  frameObj;
+        Vector2f        framePos;
         // Highlight Select Object
-        sf::RectangleShape  frameSelect;
+        RectangleShape  frameSelect;
         // Menu Interface Objects
         interfaceText       title;
         interfaceText       developer;
         interfaceText       play;
         interfaceText       exit;
-        sf::Vector2f        titlePos;
-        sf::Vector2f        devPos;
-        sf::Vector2f        playPos;
-        sf::Vector2f        exitPos;
+        Vector2f        titlePos;
+        Vector2f        devPos;
+        Vector2f        playPos;
+        Vector2f        exitPos;
 };
 
 #endif

@@ -2,7 +2,12 @@
 #include <iostream>
 #include "intro.h"
 
-intro::intro (sf::RenderWindow* renderWin)
+using sf::RenderWindow;
+using sf::Color;
+using sf::Event;
+using sf::Keyboard;
+
+intro::intro (RenderWindow* renderWin)
 :   addVal(0.9f),
     alpha(0),
     fadeIn(true),
@@ -15,18 +20,17 @@ intro::intro (sf::RenderWindow* renderWin)
 }
 
 void intro::init () {
-    if (!sfmlLogo.loadFromFile("gfx/SFML_Logo.png")) {
+    if (!sfmlLogo.loadFromFile("gfx/SFML_Logo.png"))
         return;
-    }
-    if (!creatorLogo.loadFromFile("gfx/Creator_Logo.png")) {
+
+    if (!creatorLogo.loadFromFile("gfx/Creator_Logo.png"))
         return;
-    }
+
     renderWin->setFramerateLimit(120);
     texture.loadFromImage(sfmlLogo);
     sprite.setTexture(texture);
-    sprite.setColor(sf::Color(255, 255, 255, alpha));
+    sprite.setColor(Color(255, 255, 255, alpha));
     loop();
-    return;
 }
 
 void intro::updates () {
@@ -68,26 +72,23 @@ void intro::updates () {
             }
         }
     }
-    sprite.setColor(sf::Color(255, 255, 255, alpha));
-    return;
+    sprite.setColor(Color(255, 255, 255, alpha));
 }
 
 void intro::events () {
-    sf::Event event;
+    Event event;
     while (renderWin->pollEvent(event)) {
-        if (event.type == sf::Event::KeyPressed) {
-            if (event.key.code == sf::Keyboard::Escape)
+        if (event.type == Event::KeyPressed) {
+            if (event.key.code == Keyboard::Escape)
                 isRunning = false;
         }
     }
-    return;
 }
 
 void intro::renders () {
     renderWin->clear();
     renderWin->draw(sprite);
     renderWin->display();
-    return;
 }
 
 void intro::loop () {
@@ -96,5 +97,4 @@ void intro::loop () {
         updates();
         renders();
     }
-    return;
 }

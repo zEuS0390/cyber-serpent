@@ -13,6 +13,14 @@
 #include "food.h"
 #include "anim.h"
 
+using std::string;
+using std::vector;
+using sf::RectangleShape;
+using sf::Font;
+using sf::RenderWindow;
+using sf::Clock;
+using sf::Vector2f;
+
 struct Colors {
     bool up;
     bool right;
@@ -25,7 +33,7 @@ class snakeGame {
     public:
         snakeGame   (const unsigned int,
                      const unsigned int,
-                     const char*);
+                     const string&);
     private:
         int  score;
         bool isRunning;
@@ -39,20 +47,21 @@ class snakeGame {
         void renderSnake            ();
         void resetGame              ();
     private:
-        std::vector<sf::RectangleShape> snakeRects;
+        vector<RectangleShape> snakeRects;
     private:
+	Font			font;
         Colors                  colors;
         SoundManager		soundManager;
         snake                   snakeObj;
         windowGrid              winGrid;
         food                    foodObj;
-        sf::RenderWindow        window;
+        RenderWindow		window;
         intro                   introduction;
-        sf::Clock               clock;
-        sf::Clock               menuClock;
-        sf::Clock               scoreClock;
+        Clock			clock;
+        Clock			menuClock;
+        Clock			scoreClock;
         Anim                    anim;
-        sf::Vector2f            lastFoodPos;
+        Vector2f		lastFoodPos;
         Interface               interface;
 };
 
