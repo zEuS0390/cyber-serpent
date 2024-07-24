@@ -1,71 +1,77 @@
 #include <SFML/Audio.hpp>
 #include <iostream>
 #include <string>
-#include "sound.h"
+#include <memory>
+#include "sound.hpp"
+#include "constants.hpp"
 
 using std::string;
 using std::cout;
 using std::endl;
+using std::unique_ptr;
+using std::make_unique;
+using constants::SOUND_DEAD;
+using constants::SOUND_FOOD;
+using constants::SOUND_PORTAL;
+using constants::SOUND_SNAKE;
+using constants::SOUND_BUTTON_UP;
+using constants::SOUND_BUTTON_DOWN;
+using constants::SOUND_BUTTON_ENTER;
+using constants::SOUND_QUIT;
+using constants::SOUND_BLIP;
 
-sound::sound (string name, string filepath)
-:   name(name) {
+sound::sound (const string& filepath)
+{
         init(filepath);
 }
 
-void sound::playSound () {
+void sound::playSound () 
+{
     soundObj.play();
 }
 
-void sound::setPitch (float pitch) {
+void sound::setPitch (const float& pitch) 
+{
     soundObj.setPitch(pitch);
 }
 
-void sound::init (string filepath) {
-    if (!buffer.loadFromFile(filepath)) {
-        cout << "Error loading sound file." << endl;
-        return;
-    }
-    soundObj.setBuffer(buffer);
-    soundObj.setVolume(50.0f);
+void sound::init (const string& filepath) 
+{
+	if (!buffer.loadFromFile(filepath)) 
+	{
+		cout << "Error loading sound file." << endl;
+		return;
+	}
+	soundObj.setBuffer(buffer);
+	soundObj.setVolume(50.0f);
 }
 
-SoundManager::SoundManager () {
-    audioInit();
+SoundManager::SoundManager () 
+{
+	audioInit();
 }
 
-SoundManager::~SoundManager () {
-    terminateAudioThreads();
+void SoundManager::audioInit () 
+{
+	audioCont["dead"] =		make_unique<sound>(SOUND_DEAD);
+	audioCont["food"] =		make_unique<sound>(SOUND_FOOD);
+	audioCont["portal"] =		make_unique<sound>(SOUND_PORTAL);
+	audioCont["snake"] =		make_unique<sound>(SOUND_SNAKE);
+	audioCont["button_up"] =	make_unique<sound>(SOUND_BUTTON_UP);
+	audioCont["button_down"] =	make_unique<sound>(SOUND_BUTTON_DOWN);
+	audioCont["button_enter"] =	make_unique<sound>(SOUND_BUTTON_ENTER);
+	audioCont["quit"] =		make_unique<sound>(SOUND_QUIT);
+	audioCont["blip"] =		make_unique<sound>(SOUND_BLIP);
 }
 
-void SoundManager::audioInit () {
-    audioCont.push_back(new sound("dead", "sfx/dead.wav"));
-    audioCont.push_back(new sound("food", "sfx/food.wav"));
-    audioCont.push_back(new sound("portal", "sfx/portal.wav"));
-    audioCont.push_back(new sound("snake", "sfx/snake.wav"));
-    audioCont.push_back(new sound("button_up", "sfx/button_up.wav"));
-    audioCont.push_back(new sound("button_down", "sfx/button_down.wav"));
-    audioCont.push_back(new sound("button_enter", "sfx/button_enter.wav"));
-    audioCont.push_back(new sound("quit", "sfx/quit.wav"));
-    audioCont.push_back(new sound("blip", "sfx/blip.wav"));
+void SoundManager::playAudio (const string& name) 
+{
+	if (audioCont.find(name) != audioCont.end()) 
+		audioCont[name]->playSound();
 }
 
-void SoundManager::playAudio (string name) {
-    for (unsigned int index = 0; index < audioCont.size(); index++) {
-        if (name == audioCont[index]->name)
-            audioCont[index]->playSound();
-    }
-}
-
-void SoundManager::setPitch (string name, float pitch) {
-    for (unsigned int index = 0; index < audioCont.size(); index++) {
-        if (name == audioCont[index]->name)
-            audioCont[index]->setPitch(pitch);
-    }
-}
-
-void SoundManager::terminateAudioThreads () {
-    while (!audioCont.empty()) {
-        delete audioCont.back();
-        audioCont.pop_back();
-    }
+void SoundManager::setPitch (const string& name, const float& pitch) 
+{
+	if (audioCont.find(name) != audioCont.end()) 
+		audioCont[name]->setPitch(pitch);
 }

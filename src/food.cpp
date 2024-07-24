@@ -1,8 +1,9 @@
 #include <random>
 #include <ctime>
-#include "windowGrid.h"
-#include "food.h"
-#include "constants.h"
+#include "windowGrid.hpp"
+#include "constants.hpp"
+#include "snake.hpp"
+#include "food.hpp"
 
 using std::uniform_int_distribution;
 using sf::Vector2f;
@@ -14,20 +15,29 @@ food::food (Vector2f rectSize, unsigned int scale)
 :   RectangleShape(rectSize),
     isHit(false),
     scale(scale),
-    eng(time(NULL)) {
+    eng(time(nullptr)) 
+{
     setFillColor(Color(0, 255, 0));
 }
 
-void food::setRandomPosition () {
-    while (true) {
-        uniform_int_distribution<int> distrX(scale, WINDOW_SIZEX - scale * 2);
-        uniform_int_distribution<int> distrY(scale, WINDOW_SIZEY - scale * 2);
-        unsigned int x = distrX(eng);
-        unsigned int y = distrY(eng);
-        if (x % scale == 0 && y % scale == 0) {
-            setPosition(Vector2f(x, y));
-            break;
-        }
-    }
-    return;
+void food::setRandomPosition (const snake& snakeObj) 
+{
+	uniform_int_distribution<unsigned int> distrX(scale, WINDOW_SIZEX - scale * 2);
+	uniform_int_distribution<unsigned int> distrY(scale, WINDOW_SIZEY - scale * 2);
+
+	unsigned int x, y;
+
+	const auto& head = snakeObj.snakePos.front();
+	const auto& snakeBody = snakeObj.snakeBody;
+
+	while (true) 
+	{
+		x = distrX(eng);
+		y = distrY(eng);
+		if (x % scale == 0 && y % scale == 0 && snakeBody.find(Vector2f(x, y)) == snakeBody.end() && x != head.x && y != head.y) 
+		{
+			this->setPosition(Vector2f(x, y));
+			break;
+		}
+	}
 }

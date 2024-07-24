@@ -1,9 +1,10 @@
-#ifndef CONSTANTS_H 
-#define CONSTANTS_H
+#ifndef CONSTANTS_HPP
+#define CONSTANTS_HPP
 
 #include <string>
 
-namespace constants {
+namespace constants 
+{
 	constexpr const char*	WINDOW_TITLE =		"Snake Game";
 	constexpr unsigned int	WINDOW_SIZEX =		640;
 	constexpr unsigned int	WINDOW_SIZEY =		480;

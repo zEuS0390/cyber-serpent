@@ -2,7 +2,7 @@
 cmake_minimum_required(VERSION 3.21)
 
 # Project name and version
-project(snake_game_by_zEuS0390 VERSION 1.3.1)
+project(snake_game_by_zEuS0390 VERSION 1.4.1)
 
 # Options for the project
 option(SNAKE_GENERATE_INSTALLER "Generate Installer (NSIS)" FALSE)

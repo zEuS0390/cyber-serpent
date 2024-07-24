@@ -2,8 +2,8 @@
 #include <iostream>
 #include <sstream>
 #include <string>
-#include "interface.h"
-#include "anim.h"
+#include "interface.hpp"
+#include "anim.hpp"
 
 using std::cout;
 using std::endl;
@@ -18,10 +18,14 @@ using sf::Clock;
 interfaceText::interfaceText (string filepath,
                               string str,
                               int charSize,
-                              Color color) {
-	if (!font.loadFromFile(filepath)) {
+                              Color color) 
+{
+	if (!font.loadFromFile(filepath)) 
+	{
 		cout << "Error loading font file." << endl;
-	} else {
+	} 
+	else 
+	{
 		setFillColor(color);
 		setFont(font);
 		setCharacterSize(charSize);
@@ -50,15 +54,18 @@ Interface::Interface (RenderWindow* window)
 	titlePos ((640/2)-title.getGlobalBounds().width/2, 100),
 	devPos ((640/2)-developer.getGlobalBounds().width/2, 160),
 	playPos (640/2-play.getGlobalBounds().width/2, 240),
-	exitPos ((640/2)-(exit.getGlobalBounds().width/2), 320) {
+	exitPos ((640/2)-(exit.getGlobalBounds().width/2), 320) 
+{
 }
 
-void Interface::menu (Clock& clock) {
+void Interface::menu (Clock& clock) 
+{
 	frame();
 
 	frameSelect.setFillColor(Color(0, 150, 0, 150));
 
-	switch (menuSelect) {
+	switch (menuSelect) 
+	{
 		case 1:
 			frameSelect.setPosition(Vector2f(220, 238));
 			break;
@@ -69,13 +76,16 @@ void Interface::menu (Clock& clock) {
 	window->draw(frameSelect);
 
 	float time = clock.getElapsedTime().asSeconds();
-	if (time >= 0.5f && time < 1.5f) {
+	if (time >= 0.5f && time < 1.5f) 
+	{
 		color = Color::Green;
 		title.setFillColor(color);
 		developer.setFillColor(color);
 		play.setFillColor(color);
 		exit.setFillColor(color);
-	} else if (time >= 1.5f) {
+	} 
+	else if (time >= 1.5f) 
+	{
 		color = Color::Yellow;
 		title.setFillColor(color);
 		developer.setFillColor(color);
@@ -95,14 +105,16 @@ void Interface::menu (Clock& clock) {
 	window->draw(exit);
 }
 
-string Interface::intToStr (int number) {
+string Interface::intToStr (int number) 
+{
 	stringstream str;
 	str << number;
 	string s = str.str();
 	return s;
 }
 
-void Interface::frame () {
+void Interface::frame () 
+{
 	frameObj.setFillColor(Color(0, 75, 0));
 	frameObj.setPosition(framePos);
 	window->draw(frameObj);

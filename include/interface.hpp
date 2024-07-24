@@ -1,5 +1,5 @@
-#ifndef INTERFACE_H
-#define INTERFACE_H
+#ifndef INTERFACE_HPP
+#define INTERFACE_HPP
 
 #include <SFML/Graphics.hpp>
 #include <string>
@@ -14,28 +14,25 @@ using sf::RectangleShape;
 using sf::Vector2f;
 
 // interfaceText class (inherits sf::Text class)
-class interfaceText : public Text {
-    public:
+class interfaceText : public Text 
+{
+public:
         interfaceText (string, string, int, Color);
-    private:
+private:
         Font font;
 };
 
 // interface class
-class Interface {
-    public:
+class Interface 
+{
+public:
         bool isMenu;
         int menuSelect;
-    public:
-        Interface (RenderWindow*);
-    public:
-        void check (string);
-        void menu (Clock&);
-        void option (int);
-        string intToStr (int);
-    private:
-        void frame ();
-    private:
+	string intToStr		(int);
+        Interface		(RenderWindow*);
+        void check		(string);
+        void menu		(Clock&);
+private:
         RenderWindow*   window;
         Color           color;
         // Frame Object
@@ -52,6 +49,7 @@ class Interface {
         Vector2f        devPos;
         Vector2f        playPos;
         Vector2f        exitPos;
+	void frame ();
 };
 
 #endif

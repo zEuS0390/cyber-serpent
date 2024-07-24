@@ -1,5 +1,5 @@
-#include "snakeGame.h"
-#include "constants.h"
+#include "snakeGame.hpp"
+#include "constants.hpp"
 
 /*
  ---------------------------------------------------------

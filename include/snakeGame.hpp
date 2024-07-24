@@ -1,17 +1,18 @@
-#ifndef SNAKEGAME_H
-#define SNAKEGAME_H
+#ifndef SNAKEGAME_HPP
+#define SNAKEGAME_HPP
+
 #include <SFML/Graphics.hpp>
 #include <SFML/Audio.hpp>
 #include <string>
 #include <vector>
 #include <queue>
-#include "windowGrid.h"
-#include "interface.h"
-#include "snake.h"
-#include "sound.h"
-#include "intro.h"
-#include "food.h"
-#include "anim.h"
+#include "windowGrid.hpp"
+#include "interface.hpp"
+#include "snake.hpp"
+#include "sound.hpp"
+#include "intro.hpp"
+#include "food.hpp"
+#include "anim.hpp"
 
 using std::string;
 using std::vector;
@@ -21,7 +22,8 @@ using sf::RenderWindow;
 using sf::Clock;
 using sf::Vector2f;
 
-struct Colors {
+struct Colors 
+{
     bool up;
     bool right;
     bool down;
@@ -29,26 +31,24 @@ struct Colors {
 };
 
 // snakeGame class
-class snakeGame {
-    public:
+class snakeGame 
+{
+public:
         snakeGame   (const unsigned int,
                      const unsigned int,
                      const string&);
-    private:
+private:
         int  score;
         bool isRunning;
         bool isHit;
-    private:
         void updates                ();
         void events                 ();
-        void render                 (float);
+        void render                 (const float&);
         void mainLoop               ();
         void renderGrid             ();
         void renderSnake            ();
         void resetGame              ();
-    private:
-        vector<RectangleShape> snakeRects;
-    private:
+        vector<RectangleShape>	snakeRects;
 	Font			font;
         Colors                  colors;
         SoundManager		soundManager;

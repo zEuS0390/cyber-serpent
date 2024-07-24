@@ -1,9 +1,11 @@
-#ifndef INTRO_H
-#define INTRO_H
+#ifndef INTRO_HPP
+#define INTRO_HPP
+
 #include <SFML/Graphics.hpp>
 
-class intro {
-    public:
+class intro 
+{
+public:
         float               addVal;
         float               alpha;
         bool                fadeIn;
@@ -11,15 +13,13 @@ class intro {
         bool                isSFML;
         bool                isCreator;
         bool                isRunning;
-    public:
         intro               (sf::RenderWindow*);
-    public:
         void init           ();
         void updates        ();
         void events         ();
         void renders        ();
         void loop           ();
-    private:
+private:
         sf::Clock           clock;
         sf::RenderWindow*   renderWin;
         sf::Image           sfmlLogo;
