@@ -105,7 +105,7 @@ void Anim::scoreAnim (SoundManager& soundManager, Clock& clock, Color color, uns
             if (pitch <= 2.0) 
                 pitch+=0.1;
         }
-        text.setCharacterSize(60);
+        text.setCharacterSize(32);
         text.setFont(font);
         text.setFillColor(color);
         text.setString(intToStr(total));
@@ -114,7 +114,7 @@ void Anim::scoreAnim (SoundManager& soundManager, Clock& clock, Color color, uns
     }
 }
 
-std::string Anim::intToStr (int number) 
+std::string Anim::intToStr (const int& number) 
 {
     std::stringstream str;
     str << number;

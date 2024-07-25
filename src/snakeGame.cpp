@@ -243,7 +243,7 @@ void snakeGame::render (const float& time)
 
 	if (interface.isMenu) 
 	{
-		anim.scoreAnim(soundManager, scoreClock, Color::Red, score, Vector2f(510, 90));
+		anim.scoreAnim(soundManager, scoreClock, Color::Red, score, Vector2f(interface.framePos.x + interface.frameObj.getGlobalBounds().width + 20, interface.framePos.y));
 		interface.menu(menuClock);
 	} 
 	else 
@@ -280,10 +280,32 @@ void snakeGame::renderGrid ()
 {
 	Color color;
 
-	if (colors.up)		color = Color(0, 255, 0, 150);
-	else if (colors.right)	color = Color(0, 255, 255, 150);
-	else if (colors.down)	color = Color(255, 255, 0, 150);
-	else if (colors.left)	color = Color(255, 165, 0, 150);
+	if (interface.isMenu) 
+	{
+		color.a = 40;
+	} else 
+	{
+		color.a = 100;
+	}
+	if (colors.up) 
+	{
+		color.g = 255;
+	}
+	else if (colors.right)
+	{
+		color.g = 255;
+		color.b = 255;
+	}
+	else if (colors.down)
+	{
+		color.r = 255;
+		color.g = 255;
+	}
+	else if (colors.left)
+	{
+		color.r = 255;
+		color.g = 165;
+	}
 
 	for (unsigned int i = 0; i < winGrid.winX; ++i) 
 	{

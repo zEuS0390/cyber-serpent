@@ -3,6 +3,7 @@
 #include <sstream>
 #include <string>
 #include "interface.hpp"
+#include "constants.hpp"
 #include "anim.hpp"
 
 using std::cout;
@@ -13,6 +14,10 @@ using sf::Vector2f;
 using sf::Color;
 using sf::RenderWindow;
 using sf::Clock;
+
+using constants::FONT_FILENAME;
+using constants::WINDOW_SIZEX;
+using constants::WINDOW_SIZEY;
 
 // Interface Text Class
 interfaceText::interfaceText (string filepath,
@@ -32,7 +37,6 @@ interfaceText::interfaceText (string filepath,
 		setString(str);
 	}
 }
-
 // Interface Class
 Interface::Interface (RenderWindow* window)
 :
@@ -42,35 +46,44 @@ Interface::Interface (RenderWindow* window)
 	window(window),
 
 	// Frame Object
-	frameObj(Vector2f(350.0f, 300.0f)),
-	framePos(145.0f, 90.0f),
+	frameObj	(Vector2f(WINDOW_SIZEX/2, WINDOW_SIZEY/2)),
+	framePos	(WINDOW_SIZEX/2 - frameObj.getGlobalBounds().width/2, 
+			 WINDOW_SIZEY/2 - frameObj.getGlobalBounds().height/2),
 
 	// Menu Interface Objects
-	frameSelect (Vector2f(200, 50)),
-	title ("november.ttf", "CYBER SERPENT", 50, Color::Green),
-	developer ("november.ttf", "By zEuS0390", 35, Color::Green),
-	play ("november.ttf", "PLAY", 40, Color(0, 255, 0)),
-	exit ("november.ttf", "EXIT", 40, Color(0, 255, 0)),
-	titlePos ((640/2)-title.getGlobalBounds().width/2, 100),
-	devPos ((640/2)-developer.getGlobalBounds().width/2, 160),
-	playPos (640/2-play.getGlobalBounds().width/2, 240),
-	exitPos ((640/2)-(exit.getGlobalBounds().width/2), 320) 
+	title		(FONT_FILENAME, "CYBERSERPENT", 42, Color::Green),
+	developer	(FONT_FILENAME, "By zEuS0390", 32, Color::Green),
+	play		(FONT_FILENAME, "PLAY", 32, Color(0, 255, 0)),
+	exit		(FONT_FILENAME, "EXIT", 32, Color(0, 255, 0)),
+
+	menuGroupPos	(framePos.x + frameObj.getGlobalBounds().width/2, 
+			 framePos.y + frameObj.getGlobalBounds().height/2 - 
+			 (title.getGlobalBounds().height + 
+			  developer.getGlobalBounds().height + 
+			  play.getGlobalBounds().height + 
+			  exit.getGlobalBounds().height)),
+
+	titlePos(menuGroupPos.x - title.getGlobalBounds().width/2, menuGroupPos.y + 20),
+	devPos(menuGroupPos.x - developer.getGlobalBounds().width/2, menuGroupPos.y + 70),
+	playPos(menuGroupPos.x - play.getGlobalBounds().width/2, menuGroupPos.y + 140),
+	exitPos(menuGroupPos.x - exit.getGlobalBounds().width/2, menuGroupPos.y + 180)
 {
 }
 
 void Interface::menu (Clock& clock) 
 {
 	frame();
-
 	frameSelect.setFillColor(Color(0, 150, 0, 150));
 
 	switch (menuSelect) 
 	{
 		case 1:
-			frameSelect.setPosition(Vector2f(220, 238));
+			frameSelect.setSize(Vector2f(frameObj.getGlobalBounds().width, play.getGlobalBounds().height + 10));
+			frameSelect.setPosition(Vector2f(framePos.x, playPos.y));
 			break;
 		case 2:
-			frameSelect.setPosition(Vector2f(220, 318));
+			frameSelect.setSize(Vector2f(frameObj.getGlobalBounds().width, exit.getGlobalBounds().height + 10));
+			frameSelect.setPosition(Vector2f(framePos.x, exitPos.y));
 			break;
 	}
 	window->draw(frameSelect);
@@ -105,7 +118,7 @@ void Interface::menu (Clock& clock)
 	window->draw(exit);
 }
 
-string Interface::intToStr (int number) 
+string Interface::intToStr (const int& number) 
 {
 	stringstream str;
 	str << number;

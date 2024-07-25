@@ -28,27 +28,28 @@ class Interface
 public:
         bool isMenu;
         int menuSelect;
-	string intToStr		(int);
-        Interface		(RenderWindow*);
-        void check		(string);
-        void menu		(Clock&);
+	string intToStr			(const int&);
+	Interface			(RenderWindow*);
+	void check			(string);
+	void menu			(Clock&);
+	// Frame Object
+	RectangleShape			frameObj;
+	Vector2f			framePos;
 private:
-        RenderWindow*   window;
-        Color           color;
-        // Frame Object
-        RectangleShape  frameObj;
-        Vector2f        framePos;
+        RenderWindow*			window;
+        Color				color;
         // Highlight Select Object
-        RectangleShape  frameSelect;
+        RectangleShape			frameSelect;
         // Menu Interface Objects
-        interfaceText       title;
-        interfaceText       developer;
-        interfaceText       play;
-        interfaceText       exit;
-        Vector2f        titlePos;
-        Vector2f        devPos;
-        Vector2f        playPos;
-        Vector2f        exitPos;
+        interfaceText			title;
+        interfaceText			developer;
+        interfaceText			play;
+        interfaceText			exit;
+	Vector2f			menuGroupPos;
+        Vector2f        		titlePos;
+        Vector2f        		devPos;
+        Vector2f        		playPos;
+        Vector2f        		exitPos;
 	void frame ();
 };
 

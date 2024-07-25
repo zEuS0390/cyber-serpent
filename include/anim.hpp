@@ -30,7 +30,7 @@ public:
         // scoreAnim
         sf::Text		text;
         sf::Font		font;
-	std::string intToStr	(int);
+	std::string intToStr	(const int&);
 };
 
 #endif
