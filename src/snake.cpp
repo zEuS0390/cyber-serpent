@@ -20,10 +20,8 @@ void snake::increment ()
 
 void snake::initHeadPos (const unsigned int& x, const unsigned int& y) 
 {
-	snakePos.emplace_front(x, y);
-	snakePos.emplace_front(x*2, y);
-	snakePos.emplace_front(x*3, y);
-	snakeBody.emplace(x, y);
-	snakeBody.emplace(x*2, y);
-	snakeBody.emplace(x*3, y);
+	for (int i = 1; i <= 3; ++i) {
+		snakePos.emplace_front(x*i, y);
+		snakeBody.emplace(x*i, y);
+	}
 }

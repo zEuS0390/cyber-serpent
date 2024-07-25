@@ -166,27 +166,73 @@ void snakeGame::events ()
 }
 
 // Handles updates of the game
-void snakeGame::updates () 
+void snakeGame::updates() 
 {
-	if (!snakeObj.isMoving) return;
+    // If the snake is not moving, exit the function early
+    if (!snakeObj.isMoving) return;
 
-	Vector2f head = snakeObj.snakePos.front();
+    // Retrieve and copy the current head position of the snake
+    Vector2f head = snakeObj.snakePos.front();
 
-	if (snakeObj.dir.up)	head.y -= winGrid.scale;
-	if (snakeObj.dir.down)	head.y += winGrid.scale;
-	if (snakeObj.dir.left)	head.x -= winGrid.scale;
-	if (snakeObj.dir.right)	head.x += winGrid.scale;
+    // Update the snake's body by inserting the current head position
+    // and removing the last segment of the snake's body
+    snakeObj.snakeBody.insert(head);
+    snakeObj.snakeBody.erase(snakeObj.snakePos.back());
 
-	snakeObj.snakeBody.insert(snakeObj.snakePos.front());
-	snakeObj.snakePos.push_front(head);
-	Vector2f back = snakeObj.snakePos.back();
-	snakeObj.snakeBody.erase(back);
-	snakeObj.snakePos.pop_back();
+    // Calculate the new position of the current head copy based on the current direction
+    if (snakeObj.dir.up)    head.y -= winGrid.scale;    // Move up
+    if (snakeObj.dir.down)  head.y += winGrid.scale;    // Move down
+    if (snakeObj.dir.left)  head.x -= winGrid.scale;    // Move left
+    if (snakeObj.dir.right) head.x += winGrid.scale;    // Move right
 
-	if (snakeObj.snakeBody.find(snakeObj.snakePos.front()) != snakeObj.snakeBody.end()) {
-		soundManager.playAudio("dead");
-		resetGame();
-	}
+    // Variable to track if the snake has crossed a portal boundary
+    bool isPortalTriggered = false;
+
+    // Check for boundary conditions to handle screen wrapping (portal logic)
+    if (head.x < winGrid.scale) 
+    {
+        // Snake has crossed the left boundary; wrap to the right side
+        head.x = winGrid.winX - winGrid.scale * 2;
+        colors = {false, false, false, true}; // Set colors for portal effect
+        isPortalTriggered = true;
+    } 
+    else if (head.x > winGrid.winX - winGrid.scale * 2) 
+    {
+        // Snake has crossed the right boundary; wrap to the left side
+        head.x = winGrid.scale;
+        colors = {false, true, false, false};
+        isPortalTriggered = true;
+    } 
+    else if (head.y < winGrid.scale) 
+    {
+        // Snake has crossed the top boundary; wrap to the bottom side
+        head.y = winGrid.winY - winGrid.scale * 2;
+        colors = {true, false, false, false};
+        isPortalTriggered = true;
+    } 
+    else if (head.y > winGrid.winY - winGrid.scale * 2) 
+    {
+        // Snake has crossed the bottom boundary; wrap to the top side
+        head.y = winGrid.scale;
+        colors = {false, false, true, false};
+        isPortalTriggered = true;
+    }
+
+    // Play the portal sound effect if the snake triggered a portal
+    if (isPortalTriggered) soundManager.playAudio("portal");
+
+    // Update the snake's position by adding the new head position to the front
+    // and removing the last segment from the back
+    snakeObj.snakePos.push_front(head);
+    snakeObj.snakePos.pop_back();
+
+    // Check if the snake's head has collided with its own body
+    // If so, play the game-over sound and reset the game
+    if (snakeObj.snakeBody.find(snakeObj.snakePos.front()) != snakeObj.snakeBody.end()) 
+    {
+        soundManager.playAudio("dead");
+        resetGame();
+    }
 }
 
 // Renders the game
@@ -267,43 +313,6 @@ void snakeGame::renderGrid ()
 // Renders the snake object
 void snakeGame::renderSnake () 
 {
-	for (Vector2f& pos: snakeObj.snakePos) {
-		RectangleShape shape{Vector2f(winGrid.scale, winGrid.scale)};
-
-		if (colors.up)		shape.setFillColor(Color(0, 255, 0, 200));
-		else if (colors.right)	shape.setFillColor(Color(0, 255, 255, 200));
-		else if (colors.down)	shape.setFillColor(Color(255, 255, 0, 200));
-		else if (colors.left)	shape.setFillColor(Color(255, 165, 0, 200));
-
-		if (pos.x < winGrid.scale) 
-		{
-			colors = {false, false, false, true};
-			soundManager.playAudio("portal");
-			pos.x = winGrid.winX - winGrid.scale * 2;
-		} 
-		else if (pos.x > winGrid.winX - winGrid.scale * 2) 
-		{
-			colors = {false, true, false, false};
-			soundManager.playAudio("portal");
-			pos.x = winGrid.scale;
-		} 
-		else if (pos.y < winGrid.scale) 
-		{
-			colors = {true, false, false, false};
-			soundManager.playAudio("portal");
-			pos.y = winGrid.winY - winGrid.scale * 2;
-		} 
-		else if (pos.y > winGrid.winY - winGrid.scale * 2) 
-		{
-			colors = {false, false, true, false};
-			soundManager.playAudio("portal");
-			pos.y = winGrid.scale;
-		}
-
-		shape.setPosition(pos);
-		window.draw(shape);
-	}
-
 	const Vector2f& head = snakeObj.snakePos.front();
 	const Vector2f& food = foodObj.getPosition();
 
@@ -318,11 +327,22 @@ void snakeGame::renderSnake ()
 		clock.restart();
 	}
 
-	Text text;
-	text.setFont(font);
+	for (Vector2f& pos: snakeObj.snakePos) 
+	{
+		RectangleShape shape{Vector2f(winGrid.scale, winGrid.scale)};
+
+		if (colors.up)		shape.setFillColor(Color(0, 255, 0, 200));
+		else if (colors.right)	shape.setFillColor(Color(0, 255, 255, 200));
+		else if (colors.down)	shape.setFillColor(Color(255, 255, 0, 200));
+		else if (colors.left)	shape.setFillColor(Color(255, 165, 0, 200));
+
+		shape.setPosition(pos);
+		window.draw(shape);
+	}
+
+	Text text(interface.intToStr(score), font);
 	text.setFillColor(Color::Red);
 	text.setPosition(head.x + winGrid.scale * 2, head.y - winGrid.scale * 2);
-	text.setString(interface.intToStr(score));
 
 	window.draw(text);
 }
