@@ -1,6 +1,5 @@
 #include <SFML/Graphics.hpp>
 #include <iostream>
-#include <sstream>
 #include <string>
 #include "interface.hpp"
 #include "constants.hpp"
@@ -9,7 +8,6 @@
 using std::cout;
 using std::endl;
 using std::string;
-using std::stringstream;
 using sf::Vector2f;
 using sf::Color;
 using sf::RenderWindow;
@@ -20,8 +18,8 @@ using constants::WINDOW_SIZEX;
 using constants::WINDOW_SIZEY;
 
 // Interface Text Class
-interfaceText::interfaceText (string filepath,
-                              string str,
+interfaceText::interfaceText (const string& filepath,
+                              const string& str,
                               int charSize,
                               Color color) 
 {
@@ -37,6 +35,7 @@ interfaceText::interfaceText (string filepath,
 		setString(str);
 	}
 }
+
 // Interface Class
 Interface::Interface (RenderWindow* window)
 :
@@ -116,14 +115,6 @@ void Interface::menu (Clock& clock)
 	window->draw(developer);
 	window->draw(play);
 	window->draw(exit);
-}
-
-string Interface::intToStr (const int& number) 
-{
-	stringstream str;
-	str << number;
-	string s = str.str();
-	return s;
 }
 
 void Interface::frame () 

@@ -1,7 +1,5 @@
 #include <SFML/Graphics.hpp>
-#include <SFML/Audio.hpp>
 #include <iostream>
-#include <iterator>
 #include <string>
 #include "windowGrid.hpp"
 #include "snakeGame.hpp"
@@ -10,7 +8,9 @@
 #include "snake.hpp"
 #include "sound.hpp"
 #include "anim.hpp"
+#include "utils.hpp"
 
+using std::next;
 using std::string;
 using sf::Vector2f;
 using sf::VideoMode;
@@ -23,7 +23,6 @@ using sf::RectangleShape;
 using sf::Font;
 using sf::Text;
 using constants::FONT_FILENAME;
-using std::next;
 
 // snakeGame class constructor
 snakeGame::snakeGame (const unsigned int winX,
@@ -362,7 +361,7 @@ void snakeGame::renderSnake ()
 		window.draw(shape);
 	}
 
-	Text text(interface.intToStr(score), font);
+	Text text(intToStr(score), font);
 	text.setFillColor(Color::Red);
 	text.setPosition(head.x + winGrid.scale * 2, head.y - winGrid.scale * 2);
 

@@ -1,12 +1,11 @@
 #include <SFML/Graphics.hpp>
 #include <iostream>
-#include <sstream>
 #include "anim.hpp"
+#include "utils.hpp"
 #include "sound.hpp"
 #include "constants.hpp"
 
 using std::string;
-using std::stringstream;
 using sf::RenderWindow;
 using constants::FONT_FILENAME;
 using sf::Vector2f;
@@ -114,6 +113,7 @@ void Anim::scoreAnim (SoundManager& soundManager, Clock& clock, Color color, uns
     }
 }
 
+/*
 std::string Anim::intToStr (const int& number) 
 {
     std::stringstream str;
@@ -121,3 +121,4 @@ std::string Anim::intToStr (const int& number)
     std::string s = str.str();
     return s;
 }
+*/

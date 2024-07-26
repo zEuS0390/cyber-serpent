@@ -17,7 +17,7 @@ using sf::Vector2f;
 class interfaceText : public Text 
 {
 public:
-        interfaceText (string, string, int, Color);
+        interfaceText (const string&, const string&, int, Color);
 private:
         Font font;
 };
@@ -28,7 +28,6 @@ class Interface
 public:
         bool isMenu;
         int menuSelect;
-	string intToStr			(const int&);
 	Interface			(RenderWindow*);
 	void check			(string);
 	void menu			(Clock&);
