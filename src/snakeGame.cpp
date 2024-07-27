@@ -1,5 +1,4 @@
 #include <SFML/Graphics.hpp>
-#include <iostream>
 #include <string>
 #include "windowGrid.hpp"
 #include "snakeGame.hpp"
@@ -72,10 +71,12 @@ void snakeGame::events ()
 				window.close();
 				break;
 			case Event::LostFocus:
-				snakeObj.isMoving = false;
+				if (!interface.isMenu)
+					snakeObj.isMoving = false;
 				break;
 			case Event::GainedFocus:
-				snakeObj.isMoving = true;
+				if (!interface.isMenu)
+					snakeObj.isMoving = true;
 				break;
 			case Event::KeyPressed:
 				if (!is_keypressed) 
@@ -150,6 +151,7 @@ void snakeGame::events ()
 							score = 0;
 							resetGame();
 							interface.isMenu = true;
+							snakeObj.isMoving = false;
 						}
 					}
 				}
