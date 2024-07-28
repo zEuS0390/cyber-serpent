@@ -113,12 +113,3 @@ void Anim::scoreAnim (SoundManager& soundManager, Clock& clock, Color color, uns
     }
 }
 
-/*
-std::string Anim::intToStr (const int& number) 
-{
-    std::stringstream str;
-    str << number;
-    std::string s = str.str();
-    return s;
-}
-*/
