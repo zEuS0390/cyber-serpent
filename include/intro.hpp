@@ -13,7 +13,7 @@ public:
         bool                isSFML;
         bool                isCreator;
         bool                isRunning;
-        intro               (sf::RenderWindow*);
+        explicit intro               (sf::RenderWindow*);
         void init           ();
         void updates        ();
         void events         ();

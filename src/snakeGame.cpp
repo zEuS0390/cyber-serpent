@@ -27,16 +27,16 @@ using constants::FONT_FILENAME;
 snakeGame::snakeGame (const unsigned int winX,
                       const unsigned int winY,
                       const string& windowTitle)
-:
-	score		(0),
-	isRunning	(true),
-	colors      	{true, false, false, false},
-	winGrid		(winX, winY),
-	foodObj		(Vector2f(winGrid.scale, winGrid.scale), winGrid.scale),
-	window		(VideoMode(winX, winY), windowTitle),
-	introduction	(&window),
-	anim		(&window, winGrid.scale),
-	interface	(&window) 
+:       score           (0),
+        isRunning       (true),
+        isHit           (false),
+        colors          {true, false, false, false},
+        winGrid         (winX, winY),
+        foodObj         (Vector2f(winGrid.scale, winGrid.scale), winGrid.scale),
+        window          (VideoMode(winX, winY), windowTitle),
+        introduction    (&window),
+        anim            (&window, winGrid.scale),
+        interface       (&window)
 {
 	font.loadFromFile(FONT_FILENAME);
         introduction.init();
