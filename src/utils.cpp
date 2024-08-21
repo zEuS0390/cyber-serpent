@@ -5,7 +5,7 @@
 using std::string;
 using std::stringstream;
 
-string intToStr (const int& number) 
+string intToStr (const int& number)
 {
     stringstream str;
     str << number;

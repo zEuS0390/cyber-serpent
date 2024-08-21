@@ -10,7 +10,7 @@ using sf::Vector2f;
 using std::unordered_set;
 using std::deque;
 
-struct direction 
+struct direction
 {
     bool up {false};
     bool down {false};
@@ -19,7 +19,7 @@ struct direction
 };
 
 // snake class
-class snake 
+class snake
 {
 public:
         bool					isMoving;

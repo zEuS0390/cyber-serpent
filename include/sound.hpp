@@ -13,7 +13,7 @@ using std::unordered_map;
 using std::unique_ptr;
 
 // sound class
-class sound 
+class sound
 {
 public:
         explicit sound                                  (const string&);
@@ -26,7 +26,7 @@ private:
 };
 
 // soundManager class
-class SoundManager 
+class SoundManager
 {
 public:
         SoundManager                                    ();

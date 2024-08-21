@@ -15,12 +15,12 @@ intro::intro (RenderWindow* renderWin)
     isSFML(true),
     isCreator(false),
     isRunning(true),
-    renderWin(renderWin) 
+    renderWin(renderWin)
 {
     renderWin->setMouseCursorVisible(false);
 }
 
-void intro::init () 
+void intro::init ()
 {
     if (!sfmlLogo.loadFromFile("gfx/SFML_Logo.png"))
         return;
@@ -35,44 +35,44 @@ void intro::init ()
     loop();
 }
 
-void intro::updates () 
+void intro::updates ()
 {
-    if (fadeIn) 
+    if (fadeIn)
     {
-        if (isSFML) 
+        if (isSFML)
 	{
-            if (alpha <= 255) 
+            if (alpha <= 255)
 	    {
                 alpha += addVal;
-            } else 
+            } else
 	    {
                 fadeIn = false;
                 fadeOut = true;
             }
-        } 
-	else if (isCreator) 
+        }
+	else if (isCreator)
 	{
-            if (alpha <= 255) 
+            if (alpha <= 255)
 	    {
                 alpha += addVal;
-            } 
-	    else 
+            }
+	    else
 	    {
                 fadeIn = false;
                 fadeOut = true;
             }
         }
         clock.restart();
-    } 
-    else if (clock.getElapsedTime().asSeconds() >= 1.0f && fadeOut) 
+    }
+    else if (clock.getElapsedTime().asSeconds() >= 1.0f && fadeOut)
     {
-        if (isSFML) 
+        if (isSFML)
 	{
-            if (alpha >= 0) 
+            if (alpha >= 0)
 	    {
                 alpha -= addVal;
-            } 
-	    else 
+            }
+	    else
 	    {
                 texture.loadFromImage(creatorLogo);
                 isCreator = true;
@@ -80,14 +80,14 @@ void intro::updates ()
                 fadeIn = true;
                 fadeOut = false;
             }
-        } 
-	else if (isCreator) 
+        }
+	else if (isCreator)
 	{
-            if (alpha >= 0) 
+            if (alpha >= 0)
 	    {
                 alpha -= addVal;
-            } 
-	    else 
+            }
+	    else
 	    {
                 isRunning = false;
                 isCreator = false;
@@ -98,12 +98,12 @@ void intro::updates ()
     sprite.setColor(Color(255, 255, 255, alpha));
 }
 
-void intro::events () 
+void intro::events ()
 {
     Event event;
-    while (renderWin->pollEvent(event)) 
+    while (renderWin->pollEvent(event))
     {
-        if (event.type == Event::KeyPressed) 
+        if (event.type == Event::KeyPressed)
 	{
             if (event.key.code == Keyboard::Escape)
                 isRunning = false;
@@ -111,16 +111,16 @@ void intro::events ()
     }
 }
 
-void intro::renders () 
+void intro::renders ()
 {
     renderWin->clear();
     renderWin->draw(sprite);
     renderWin->display();
 }
 
-void intro::loop () 
+void intro::loop ()
 {
-    while (isRunning) 
+    while (isRunning)
     {
         events();
         updates();

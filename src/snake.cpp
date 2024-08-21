@@ -7,18 +7,18 @@ using sf::Vector2f;
 // snake class constructor
 snake::snake()
 :   isMoving(false),
-    dir{false, false, false, true} 
+    dir{false, false, false, true}
 {
 }
 
-void snake::increment () 
+void snake::increment ()
 {
 	Vector2f newPos = snakePos.back();
 	snakePos.push_back(newPos);
 	snakeBody.insert(newPos);
 }
 
-void snake::initHeadPos (const unsigned int& x, const unsigned int& y) 
+void snake::initHeadPos (const unsigned int& x, const unsigned int& y)
 {
 	for (int i = 1; i <= 3; ++i) {
 		snakePos.emplace_front(x*i, y);

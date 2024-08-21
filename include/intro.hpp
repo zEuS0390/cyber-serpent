@@ -3,7 +3,7 @@
 
 #include <SFML/Graphics.hpp>
 
-class intro 
+class intro
 {
 public:
         float               addVal;

@@ -10,7 +10,7 @@ using std::mt19937;
 using sf::RectangleShape;
 using sf::Vector2f;
 
-class food: public RectangleShape 
+class food: public RectangleShape
 {
 public:
 	bool isHit;

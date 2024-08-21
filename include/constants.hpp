@@ -3,7 +3,7 @@
 
 #include <string>
 
-namespace constants 
+namespace constants
 {
 	constexpr const char*	WINDOW_TITLE =		"Snake Game";
 	constexpr unsigned int	WINDOW_SIZEX =		640;

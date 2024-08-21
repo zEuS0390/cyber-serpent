@@ -1,7 +1,7 @@
 #ifndef WINDOWGRID_HPP
 #define WINDOWGRID_HPP
 
-class windowGrid 
+class windowGrid
 {
 public:
         unsigned int scale;

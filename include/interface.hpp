@@ -14,7 +14,7 @@ using sf::RectangleShape;
 using sf::Vector2f;
 
 // interfaceText class (inherits sf::Text class)
-class interfaceText : public Text 
+class interfaceText : public Text
 {
 public:
         interfaceText (const string&, const string&, int, Color);
@@ -23,7 +23,7 @@ private:
 };
 
 // interface class
-class Interface 
+class Interface
 {
 public:
         bool isMenu;

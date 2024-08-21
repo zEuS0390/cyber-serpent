@@ -4,6 +4,6 @@
 using constants::GRID_SCALE;
 
 windowGrid::windowGrid (unsigned int winX, unsigned int winY)
-: winX(winX), winY(winY), scale(GRID_SCALE) 
+: winX(winX), winY(winY), scale(GRID_SCALE)
 {
 }

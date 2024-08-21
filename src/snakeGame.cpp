@@ -24,7 +24,7 @@ using sf::Text;
 using constants::FONT_FILENAME;
 
 // snakeGame class constructor
-snakeGame::snakeGame (const unsigned int winX,
+SnakeGame::SnakeGame (const unsigned int winX,
                       const unsigned int winY,
                       const string& windowTitle)
 :       score           (0),
@@ -42,14 +42,13 @@ snakeGame::snakeGame (const unsigned int winX,
         introduction.init();
         window.setMouseCursorVisible(false);
         snakeObj.initHeadPos(winGrid.scale, winGrid.scale);
-        mainLoop();
 }
 
 // Main loop of the game
-void snakeGame::mainLoop () 
+void SnakeGame::run ()
 {
 	window.setFramerateLimit(10);
-	while (isRunning) 
+	while (isRunning)
 	{
 		float time {clock.getElapsedTime().asSeconds()};
 		updates();
@@ -59,13 +58,13 @@ void snakeGame::mainLoop ()
 }
 
 // Handles events of the game
-void snakeGame::events () 
+void SnakeGame::events ()
 {
 	Event event;
 	bool is_keypressed {false};
-	while (window.pollEvent(event)) 
+	while (window.pollEvent(event))
 	{
-		switch (event.type) 
+		switch (event.type)
 		{
 			case Event::Closed:
 				window.close();
@@ -79,17 +78,17 @@ void snakeGame::events ()
 					snakeObj.isMoving = true;
 				break;
 			case Event::KeyPressed:
-				if (!is_keypressed) 
+				if (!is_keypressed)
 				{
 					is_keypressed = true;
-					if (event.key.code == Keyboard::W || event.key.code == Keyboard::Up) 
+					if (event.key.code == Keyboard::W || event.key.code == Keyboard::Up)
 					{
-						if (snakeObj.isMoving && !snakeObj.dir.up && !snakeObj.dir.down) 
+						if (snakeObj.isMoving && !snakeObj.dir.up && !snakeObj.dir.down)
 						{
 							soundManager.playAudio("snake");
 							snakeObj.dir = {true, false, false, false};
-						} 
-						else if (interface.isMenu) 
+						}
+						else if (interface.isMenu)
 						{
 							interface.menuSelect = (interface.menuSelect % 2) + 1;
 							soundManager.playAudio("button_up");
@@ -97,12 +96,12 @@ void snakeGame::events ()
 					}
 					if (event.key.code == Keyboard::S || event.key.code == Keyboard::Down)
 					{
-						if (snakeObj.isMoving && !snakeObj.dir.down && !snakeObj.dir.up) 
+						if (snakeObj.isMoving && !snakeObj.dir.down && !snakeObj.dir.up)
 						{
 							soundManager.playAudio("snake");
 							snakeObj.dir = {false, true, false, false};
-						} 
-						else if (interface.isMenu) 
+						}
+						else if (interface.isMenu)
 						{
 							interface.menuSelect = (interface.menuSelect % 2) + 1;
 							soundManager.playAudio("button_down");
@@ -110,33 +109,33 @@ void snakeGame::events ()
 					}
 					if (event.key.code == Keyboard::A || event.key.code == Keyboard::Left)
 					{
-						if (snakeObj.isMoving && !snakeObj.dir.left && !snakeObj.dir.right) 
+						if (snakeObj.isMoving && !snakeObj.dir.left && !snakeObj.dir.right)
 						{
 							soundManager.playAudio("snake");
 							snakeObj.dir = {false, false, true, false};
 						}
 					}
-					if (event.key.code == Keyboard::D || event.key.code == Keyboard::Right) 
+					if (event.key.code == Keyboard::D || event.key.code == Keyboard::Right)
 					{
-						if (snakeObj.isMoving && !snakeObj.dir.right && !snakeObj.dir.left) 
+						if (snakeObj.isMoving && !snakeObj.dir.right && !snakeObj.dir.left)
 						{
 							soundManager.playAudio("snake");
 							snakeObj.dir = {false, false, false, true};
 						}
 					}
-					if (event.key.code == Keyboard::Enter) 
+					if (event.key.code == Keyboard::Enter)
 					{
-						if (interface.isMenu) 
+						if (interface.isMenu)
 						{
-							if (interface.menuSelect == 1) 
+							if (interface.menuSelect == 1)
 							{
 								soundManager.playAudio("button_enter");
 								interface.isMenu = false;
 								snakeObj.isMoving = true;
 								foodObj.setRandomPosition(snakeObj);
 								score = 0;
-							} 
-							else if (interface.menuSelect == 2) 
+							}
+							else if (interface.menuSelect == 2)
 							{
 								isRunning = false;
 							}
@@ -144,7 +143,7 @@ void snakeGame::events ()
 					}
 					if (event.key.code == Keyboard::Escape)
 					{
-						if (!interface.isMenu) 
+						if (!interface.isMenu)
 						{
 							soundManager.playAudio("quit");
 							anim.total = 0;
@@ -157,7 +156,7 @@ void snakeGame::events ()
 				}
 				break;
 			case Event::KeyReleased:
-				if (is_keypressed) 
+				if (is_keypressed)
 				{
 					is_keypressed = false;
 				}
@@ -167,7 +166,7 @@ void snakeGame::events ()
 }
 
 // Handles updates of the game
-void snakeGame::updates() 
+void SnakeGame::updates()
 {
     // If the snake is not moving, exit the function early
     if (!snakeObj.isMoving) return;
@@ -190,28 +189,28 @@ void snakeGame::updates()
     bool isPortalTriggered = false;
 
     // Check for boundary conditions to handle screen wrapping (portal logic)
-    if (head.x < winGrid.scale) 
+    if (head.x < winGrid.scale)
     {
         // Snake has crossed the left boundary; wrap to the right side
         head.x = winGrid.winX - winGrid.scale * 2;
         colors = {false, false, false, true}; // Set colors for portal effect
         isPortalTriggered = true;
-    } 
-    else if (head.x > winGrid.winX - winGrid.scale * 2) 
+    }
+    else if (head.x > winGrid.winX - winGrid.scale * 2)
     {
         // Snake has crossed the right boundary; wrap to the left side
         head.x = winGrid.scale;
         colors = {false, true, false, false};
         isPortalTriggered = true;
-    } 
-    else if (head.y < winGrid.scale) 
+    }
+    else if (head.y < winGrid.scale)
     {
         // Snake has crossed the top boundary; wrap to the bottom side
         head.y = winGrid.winY - winGrid.scale * 2;
         colors = {true, false, false, false};
         isPortalTriggered = true;
-    } 
-    else if (head.y > winGrid.winY - winGrid.scale * 2) 
+    }
+    else if (head.y > winGrid.winY - winGrid.scale * 2)
     {
         // Snake has crossed the bottom boundary; wrap to the top side
         head.y = winGrid.scale;
@@ -229,7 +228,7 @@ void snakeGame::updates()
 
     // Check if the snake's head has collided with its own body
     // If so, play the game-over sound and reset the game
-    if (snakeObj.snakeBody.find(snakeObj.snakePos.front()) != snakeObj.snakeBody.end()) 
+    if (snakeObj.snakeBody.find(snakeObj.snakePos.front()) != snakeObj.snakeBody.end())
     {
         soundManager.playAudio("dead");
         resetGame();
@@ -237,34 +236,34 @@ void snakeGame::updates()
 }
 
 // Renders the game
-void snakeGame::render (const float& time) 
+void SnakeGame::render (const float& time)
 {
 	window.clear();
 	renderGrid();
 
-	if (interface.isMenu) 
+	if (interface.isMenu)
 	{
 		anim.scoreAnim(soundManager, scoreClock, Color::Red, score, Vector2f(interface.framePos.x + interface.frameObj.getGlobalBounds().width + 20, interface.framePos.y));
 		interface.menu(menuClock);
-	} 
-	else 
+	}
+	else
 	{
-		if (colors.up) 
+		if (colors.up)
 		{
 			anim.explodeFood(foodObj.isHit, Color(0, 255, 0, 150), lastFoodPos, time);
 			foodObj.setFillColor(Color(0, 255, 0));
-		} 
-		else if (colors.right) 
+		}
+		else if (colors.right)
 		{
 			anim.explodeFood(foodObj.isHit, Color(0, 255, 255, 150), lastFoodPos, time);
 			foodObj.setFillColor(Color(0, 255, 255));
-		} 
-		else if (colors.down) 
+		}
+		else if (colors.down)
 		{
 			anim.explodeFood(foodObj.isHit, Color(255, 255, 0, 150), lastFoodPos, time);
 			foodObj.setFillColor(Color(255, 255, 0));
-		} 
-		else if (colors.left) 
+		}
+		else if (colors.left)
 		{
 			anim.explodeFood(foodObj.isHit, Color(255, 165, 0, 150), lastFoodPos, time);
 			foodObj.setFillColor(Color(255, 165, 0));
@@ -277,18 +276,18 @@ void snakeGame::render (const float& time)
 }
 
 // Render the grid with different colors
-void snakeGame::renderGrid () 
+void SnakeGame::renderGrid ()
 {
 	Color color;
 
-	if (interface.isMenu) 
+	if (interface.isMenu)
 	{
 		color.a = 40;
-	} else 
+	} else
 	{
 		color.a = 100;
 	}
-	if (colors.up) 
+	if (colors.up)
 	{
 		color.g = 255;
 	}
@@ -308,9 +307,9 @@ void snakeGame::renderGrid ()
 		color.g = 165;
 	}
 
-	for (unsigned int i = 0; i < winGrid.winX; ++i) 
+	for (unsigned int i = 0; i < winGrid.winX; ++i)
 	{
-		if (i % winGrid.scale == 0) 
+		if (i % winGrid.scale == 0)
 		{
 			Vertex line[2] = {
 				Vertex(Vector2f(i, winGrid.scale), color),
@@ -320,9 +319,9 @@ void snakeGame::renderGrid ()
 		}
 	}
 
-	for (unsigned int i = 0; i < winGrid.winY; ++i) 
+	for (unsigned int i = 0; i < winGrid.winY; ++i)
 	{
-		if (i % winGrid.scale == 0) 
+		if (i % winGrid.scale == 0)
 		{
 			Vertex line[2] {
 				Vertex(Vector2f(winGrid.scale, i), color),
@@ -334,57 +333,57 @@ void snakeGame::renderGrid ()
 }
 
 // Renders the snake object
-void snakeGame::renderSnake () 
+void SnakeGame::renderSnake ()
 {
-	const Vector2f& head = snakeObj.snakePos.front();
-	const Vector2f& food = foodObj.getPosition();
+        const Vector2f& head = snakeObj.snakePos.front();
+        const Vector2f& food = foodObj.getPosition();
 
-	if (head.x == food.x && head.y == food.y) 
-	{
-		++score;
-		foodObj.isHit = true;
-		soundManager.playAudio("food");
-		snakeObj.increment();
-		lastFoodPos = foodObj.getPosition();
-		foodObj.setRandomPosition(snakeObj);
-		clock.restart();
-	}
+        if (head.x == food.x && head.y == food.y)
+        {
+                ++score;
+                foodObj.isHit = true;
+                soundManager.playAudio("food");
+                snakeObj.increment();
+                lastFoodPos = foodObj.getPosition();
+                foodObj.setRandomPosition(snakeObj);
+                clock.restart();
+        }
 
-	for (Vector2f& pos: snakeObj.snakePos) 
-	{
-		RectangleShape shape{Vector2f(winGrid.scale, winGrid.scale)};
+        for (Vector2f& pos: snakeObj.snakePos)
+        {
+                RectangleShape shape{Vector2f(winGrid.scale, winGrid.scale)};
 
-		if (colors.up)		shape.setFillColor(Color(0, 255, 0, 200));
-		else if (colors.right)	shape.setFillColor(Color(0, 255, 255, 200));
-		else if (colors.down)	shape.setFillColor(Color(255, 255, 0, 200));
-		else if (colors.left)	shape.setFillColor(Color(255, 165, 0, 200));
+                if (colors.up)          shape.setFillColor(Color(0, 255, 0, 200));
+                else if (colors.right)  shape.setFillColor(Color(0, 255, 255, 200));
+                else if (colors.down)   shape.setFillColor(Color(255, 255, 0, 200));
+                else if (colors.left)   shape.setFillColor(Color(255, 165, 0, 200));
 
-		shape.setPosition(pos);
-		window.draw(shape);
-	}
+                shape.setPosition(pos);
+                window.draw(shape);
+        }
 
-	Text text(intToStr(score), font);
-	text.setFillColor(Color::Red);
-	text.setPosition(head.x + winGrid.scale * 2, head.y - winGrid.scale * 2);
+        Text text(intToStr(score), font);
+        text.setFillColor(Color::Red);
+        text.setPosition(head.x + winGrid.scale * 2, head.y - winGrid.scale * 2);
 
-	window.draw(text);
+        window.draw(text);
 }
 
-void snakeGame::resetGame () 
+void SnakeGame::resetGame ()
 {
-	menuClock.restart();
-	scoreClock.restart();
-	anim.total = 0;
-	anim.scoreOnce = false;
-	anim.pitch = 0.1;
-	interface.isMenu = true;
-	colors = {true, false, false, false};
-	foodObj.setFillColor(Color(0, 255, 0));
-	foodObj.setRandomPosition(snakeObj);
-	foodObj.isHit = false;
-	snakeObj.isMoving = false;
-	snakeObj.snakePos.clear();
-	snakeObj.snakeBody.clear();
-	snakeObj.dir = {false, false, false, true};
-	snakeObj.initHeadPos(winGrid.scale, winGrid.scale);
+        menuClock.restart();
+        scoreClock.restart();
+        anim.total = 0;
+        anim.scoreOnce = false;
+        anim.pitch = 0.1;
+        interface.isMenu = true;
+        colors = {true, false, false, false};
+        foodObj.setFillColor(Color(0, 255, 0));
+        foodObj.setRandomPosition(snakeObj);
+        foodObj.isHit = false;
+        snakeObj.isMoving = false;
+        snakeObj.snakePos.clear();
+        snakeObj.snakeBody.clear();
+        snakeObj.dir = {false, false, false, true};
+        snakeObj.initHeadPos(winGrid.scale, winGrid.scale);
 }

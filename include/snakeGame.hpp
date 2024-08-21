@@ -22,47 +22,45 @@ using sf::RenderWindow;
 using sf::Clock;
 using sf::Vector2f;
 
-struct Colors 
+struct Colors
 {
-    bool up;
-    bool right;
-    bool down;
-    bool left;
+        bool up;
+        bool right;
+        bool down;
+        bool left;
 };
 
 // snakeGame class
-class snakeGame 
+class SnakeGame
 {
 public:
-        snakeGame   (const unsigned int,
-                     const unsigned int,
-                     const string&);
+        SnakeGame   (const unsigned int, const unsigned int, const string&);
+        void run                        ();
 private:
         int  score;
         bool isRunning;
         bool isHit;
-        void updates                ();
-        void events                 ();
-        void render                 (const float&);
-        void mainLoop               ();
-        void renderGrid             ();
-        void renderSnake            ();
-        void resetGame              ();
-        vector<RectangleShape>	snakeRects;
-	Font			font;
-        Colors                  colors;
-        SoundManager		soundManager;
-        snake                   snakeObj;
-        windowGrid              winGrid;
-        food                    foodObj;
-        RenderWindow		window;
-        intro                   introduction;
-        Clock			clock;
-        Clock			menuClock;
-        Clock			scoreClock;
-        Anim                    anim;
-        Vector2f		lastFoodPos;
-        Interface               interface;
+        void updates                    ();
+        void events                     ();
+        void render                     (const float&);
+        void renderGrid                 ();
+        void renderSnake                ();
+        void resetGame                  ();
+        vector<RectangleShape>          snakeRects;
+        Font                            font;
+        Colors                          colors;
+        SoundManager                    soundManager;
+        snake                           snakeObj;
+        windowGrid                      winGrid;
+        food                            foodObj;
+        RenderWindow                    window;
+        intro                           introduction;
+        Clock                           clock;
+        Clock                           menuClock;
+        Clock                           scoreClock;
+        Anim                            anim;
+        Vector2f                        lastFoodPos;
+        Interface                       interface;
 };
 
 #endif

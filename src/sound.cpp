@@ -25,19 +25,19 @@ sound::sound (const string& filepath)
         init(filepath);
 }
 
-void sound::playSound () 
+void sound::playSound ()
 {
     soundObj.play();
 }
 
-void sound::setPitch (const float& pitch) 
+void sound::setPitch (const float& pitch)
 {
     soundObj.setPitch(pitch);
 }
 
-void sound::init (const string& filepath) 
+void sound::init (const string& filepath)
 {
-	if (!buffer.loadFromFile(filepath)) 
+	if (!buffer.loadFromFile(filepath))
 	{
 		cout << "Error loading sound file." << endl;
 		return;
@@ -46,12 +46,12 @@ void sound::init (const string& filepath)
 	soundObj.setVolume(50.0f);
 }
 
-SoundManager::SoundManager () 
+SoundManager::SoundManager ()
 {
 	audioInit();
 }
 
-void SoundManager::audioInit () 
+void SoundManager::audioInit ()
 {
 	audioCont["dead"] =		make_unique<sound>(SOUND_DEAD);
 	audioCont["food"] =		make_unique<sound>(SOUND_FOOD);
@@ -64,14 +64,14 @@ void SoundManager::audioInit ()
 	audioCont["blip"] =		make_unique<sound>(SOUND_BLIP);
 }
 
-void SoundManager::playAudio (const string& name) 
+void SoundManager::playAudio (const string& name)
 {
-	if (audioCont.find(name) != audioCont.end()) 
+	if (audioCont.find(name) != audioCont.end())
 		audioCont[name]->playSound();
 }
 
-void SoundManager::setPitch (const string& name, const float& pitch) 
+void SoundManager::setPitch (const string& name, const float& pitch)
 {
-	if (audioCont.find(name) != audioCont.end()) 
+	if (audioCont.find(name) != audioCont.end())
 		audioCont[name]->setPitch(pitch);
 }

@@ -21,13 +21,13 @@ using constants::WINDOW_SIZEY;
 interfaceText::interfaceText (const string& filepath,
                               const string& str,
                               int charSize,
-                              Color color) 
+                              Color color)
 {
-	if (!font.loadFromFile(filepath)) 
+	if (!font.loadFromFile(filepath))
 	{
 		cout << "Error loading font file." << endl;
-	} 
-	else 
+	}
+	else
 	{
 		setFillColor(color);
 		setFont(font);
@@ -46,7 +46,7 @@ Interface::Interface (RenderWindow* window)
 
 	// Frame Object
 	frameObj	(Vector2f(WINDOW_SIZEX/2, WINDOW_SIZEY/2)),
-	framePos	(WINDOW_SIZEX/2 - frameObj.getGlobalBounds().width/2, 
+	framePos	(WINDOW_SIZEX/2 - frameObj.getGlobalBounds().width/2,
 			 WINDOW_SIZEY/2 - frameObj.getGlobalBounds().height/2),
 
 	// Menu Interface Objects
@@ -55,11 +55,11 @@ Interface::Interface (RenderWindow* window)
 	play		(FONT_FILENAME, "PLAY", 32, Color(0, 255, 0)),
 	exit		(FONT_FILENAME, "EXIT", 32, Color(0, 255, 0)),
 
-	menuGroupPos	(framePos.x + frameObj.getGlobalBounds().width/2, 
-			 framePos.y + frameObj.getGlobalBounds().height/2 - 
-			 (title.getGlobalBounds().height + 
-			  developer.getGlobalBounds().height + 
-			  play.getGlobalBounds().height + 
+	menuGroupPos	(framePos.x + frameObj.getGlobalBounds().width/2,
+			 framePos.y + frameObj.getGlobalBounds().height/2 -
+			 (title.getGlobalBounds().height +
+			  developer.getGlobalBounds().height +
+			  play.getGlobalBounds().height +
 			  exit.getGlobalBounds().height)),
 
 	titlePos(menuGroupPos.x - title.getGlobalBounds().width/2, menuGroupPos.y + 20),
@@ -69,12 +69,12 @@ Interface::Interface (RenderWindow* window)
 {
 }
 
-void Interface::menu (Clock& clock) 
+void Interface::menu (Clock& clock)
 {
 	frame();
 	frameSelect.setFillColor(Color(0, 150, 0, 150));
 
-	switch (menuSelect) 
+	switch (menuSelect)
 	{
 		case 1:
 			frameSelect.setSize(Vector2f(frameObj.getGlobalBounds().width, play.getGlobalBounds().height + 10));
@@ -88,15 +88,15 @@ void Interface::menu (Clock& clock)
 	window->draw(frameSelect);
 
 	float time = clock.getElapsedTime().asSeconds();
-	if (time >= 0.5f && time < 1.5f) 
+	if (time >= 0.5f && time < 1.5f)
 	{
 		color = Color::Green;
 		title.setFillColor(color);
 		developer.setFillColor(color);
 		play.setFillColor(color);
 		exit.setFillColor(color);
-	} 
-	else if (time >= 1.5f) 
+	}
+	else if (time >= 1.5f)
 	{
 		color = Color::Yellow;
 		title.setFillColor(color);
@@ -117,7 +117,7 @@ void Interface::menu (Clock& clock)
 	window->draw(exit);
 }
 
-void Interface::frame () 
+void Interface::frame ()
 {
 	frameObj.setFillColor(Color(0, 75, 0));
 	frameObj.setPosition(framePos);

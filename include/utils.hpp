@@ -19,4 +19,4 @@ struct Vector2fHash
 
 std::string intToStr (const int& number);
 
-#endif 
+#endif
