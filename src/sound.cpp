@@ -75,3 +75,4 @@ void SoundManager::setPitch (const string& name, const float& pitch)
 	if (audioCont.find(name) != audioCont.end())
 		audioCont[name]->setPitch(pitch);
 }
+

@@ -387,3 +387,4 @@ void SnakeGame::resetGame ()
         snakeObj.dir = {false, false, false, true};
         snakeObj.initHeadPos(winGrid.scale, winGrid.scale);
 }
+

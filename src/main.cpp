@@ -15,7 +15,8 @@ using constants::WINDOW_SIZEY;
 
 // Main execution of the program
 int main () {
-	SnakeGame snakeGame(WINDOW_SIZEX, WINDOW_SIZEY, WINDOW_TITLE);
+        SnakeGame snakeGame(WINDOW_SIZEX, WINDOW_SIZEY, WINDOW_TITLE);
         snakeGame.run();
 	return 0;
 }
+

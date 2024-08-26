@@ -11,3 +11,4 @@ string intToStr (const int& number)
     str << number;
     return str.str();
 }
+

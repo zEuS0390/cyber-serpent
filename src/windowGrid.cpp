@@ -7,3 +7,4 @@ windowGrid::windowGrid (unsigned int winX, unsigned int winY)
 : winX(winX), winY(winY), scale(GRID_SCALE)
 {
 }
+

@@ -25,3 +25,4 @@ void snake::initHeadPos (const unsigned int& x, const unsigned int& y)
 		snakeBody.emplace(x*i, y);
 	}
 }
+
