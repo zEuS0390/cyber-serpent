@@ -16,11 +16,11 @@ public:
         unsigned int		total;
         float			pitch;
         bool			scoreOnce;
-        Anim			(RenderWindow*, unsigned int);
+        Anim			(RenderWindow&, unsigned int);
         void explodeFood	(bool&, Color, Vector2f, const float&);
         void scoreAnim		(SoundManager&, Clock&, Color, unsigned int, Vector2f);
     private:
-        sf::RenderWindow*	window;
+        sf::RenderWindow&       window;
         sf::Color		color;
         // explodeFood
         sf::RectangleShape	shape1;

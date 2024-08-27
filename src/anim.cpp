@@ -12,7 +12,7 @@ using sf::Vector2f;
 using sf::Color;
 using sf::Clock;
 
-Anim::Anim (RenderWindow* window, unsigned int scale)
+Anim::Anim (RenderWindow& window, unsigned int scale)
 :
 	scale(scale),
 	total(0),
@@ -54,10 +54,10 @@ void Anim::explodeFood (bool& isActive, Color color, Vector2f foodPos, const flo
         {
                 if (time >= 0.05f && time < 0.5f)
                 {
-                        window->draw(shape1);
-                        window->draw(shape2);
-                        window->draw(shape3);
-                        window->draw(shape4);
+                        window.draw(shape1);
+                        window.draw(shape2);
+                        window.draw(shape3);
+                        window.draw(shape4);
                 }
                 if (time >= 0.5f && time < 1.0f)
                 {
@@ -65,10 +65,10 @@ void Anim::explodeFood (bool& isActive, Color color, Vector2f foodPos, const flo
                         shape2.setPosition(Vector2f(shape2.getPosition().x - scale, shape2.getPosition().y));
                         shape3.setPosition(Vector2f(shape3.getPosition().x, shape3.getPosition().y + scale));
                         shape4.setPosition(Vector2f(shape4.getPosition().x, shape4.getPosition().y - scale));
-                        window->draw(shape1);
-                        window->draw(shape2);
-                        window->draw(shape3);
-                        window->draw(shape4);
+                        window.draw(shape1);
+                        window.draw(shape2);
+                        window.draw(shape3);
+                        window.draw(shape4);
                 }
                 if (time >= 1.0f && time < 1.5f)
                 {
@@ -76,10 +76,10 @@ void Anim::explodeFood (bool& isActive, Color color, Vector2f foodPos, const flo
                         shape2.setPosition(Vector2f(shape2.getPosition().x - 2 * scale, shape2.getPosition().y));
                         shape3.setPosition(Vector2f(shape3.getPosition().x, shape3.getPosition().y + 2 * scale));
                         shape4.setPosition(Vector2f(shape4.getPosition().x, shape4.getPosition().y - 2 * scale));
-                        window->draw(shape1);
-                        window->draw(shape2);
-                        window->draw(shape3);
-                        window->draw(shape4);
+                        window.draw(shape1);
+                        window.draw(shape2);
+                        window.draw(shape3);
+                        window.draw(shape4);
                 }
                 if(time >= 1.5f)
                         isActive = false;
@@ -109,7 +109,7 @@ void Anim::scoreAnim (SoundManager& soundManager, Clock& clock, Color color, uns
                 text.setFillColor(color);
                 text.setString(intToStr(total));
                 text.setPosition(position);
-                window->draw(text);
+                window.draw(text);
         }
 }
 

@@ -7,7 +7,7 @@ using sf::Color;
 using sf::Event;
 using sf::Keyboard;
 
-intro::intro (RenderWindow* renderWin)
+intro::intro (RenderWindow& renderWin)
 :   addVal(0.9f),
     alpha(0),
     fadeIn(true),
@@ -17,7 +17,7 @@ intro::intro (RenderWindow* renderWin)
     isRunning(true),
     renderWin(renderWin)
 {
-    renderWin->setMouseCursorVisible(false);
+    renderWin.setMouseCursorVisible(false);
 }
 
 void intro::init ()
@@ -28,7 +28,7 @@ void intro::init ()
     if (!creatorLogo.loadFromFile("gfx/Creator_Logo.png"))
         return;
 
-    renderWin->setFramerateLimit(250);
+    renderWin.setFramerateLimit(250);
     texture.loadFromImage(sfmlLogo);
     sprite.setTexture(texture);
     sprite.setColor(Color(255, 255, 255, alpha));
@@ -101,7 +101,7 @@ void intro::updates ()
 void intro::events ()
 {
     Event event;
-    while (renderWin->pollEvent(event))
+    while (renderWin.pollEvent(event))
     {
         if (event.type == Event::KeyPressed)
 	{
@@ -113,9 +113,9 @@ void intro::events ()
 
 void intro::renders ()
 {
-    renderWin->clear();
-    renderWin->draw(sprite);
-    renderWin->display();
+    renderWin.clear();
+    renderWin.draw(sprite);
+    renderWin.display();
 }
 
 void intro::loop ()

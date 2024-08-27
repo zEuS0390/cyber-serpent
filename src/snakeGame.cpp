@@ -34,8 +34,8 @@ SnakeGame::SnakeGame (const unsigned int winX,
         winGrid         (winX, winY),
         foodObj         (Vector2f(winGrid.scale, winGrid.scale), winGrid.scale),
         window          (VideoMode(winX, winY), windowTitle),
-        introduction    (&window),
-        anim            (&window, winGrid.scale),
+        introduction    (window),
+        anim            (window, winGrid.scale),
         interface       (&window)
 {
 	font.loadFromFile(FONT_FILENAME);
