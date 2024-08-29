@@ -2,10 +2,12 @@
 #define CONSTANTS_HPP
 
 #include <string>
+#include "version.hpp"
 
 namespace constants
 {
-	constexpr const char*	WINDOW_TITLE =		"Snake Game";
+	const std::string       WINDOW_TITLE =		"CyberSerpent";
+        const std::string       GAME_VERSION =          constants::PROJECT_VERSION;
 	constexpr unsigned int	WINDOW_SIZEX =		640;
 	constexpr unsigned int	WINDOW_SIZEY =		480;
 	constexpr unsigned int	GRID_SCALE =		20;

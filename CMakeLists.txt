@@ -2,10 +2,10 @@
 cmake_minimum_required(VERSION 3.21)
 
 # Project name and version
-project(snake_game_by_zEuS0390 VERSION 1.4.1)
+project(CyberSerpent VERSION 1.4.1)
 
 # Options for the project
-option(SNAKE_GENERATE_INSTALLER "Generate Installer (NSIS)" FALSE)
+option(CYBERSERPENT_GENERATE_INSTALLER "Generate Installer (NSIS)" FALSE)
 option(BUILD_SHARED_LIBS "Build Shared Libs" OFF)
 
 # Set C++ standard
@@ -40,31 +40,36 @@ FetchContent_MakeAvailable(SFML)
 if (CMAKE_SYSTEM_NAME MATCHES "Windows")
 	# Windows specific settings
 	add_executable(${PROJECT_NAME} WIN32 ${APP_SRC_FILES} $<$<PLATFORM_ID:Windows>:${APP_ICON_RC}>)
-	target_link_libraries(${PROJECT_NAME} sfml-audio sfml-graphics sfml-window sfml-system 
+	target_link_libraries(${PROJECT_NAME} sfml-audio sfml-graphics sfml-window sfml-system
 		-static-libgcc -static-libstdc++ -Wl,-Bstatic -lstdc++ -lpthread -Wl,-Bdynamic)
 else()
 	# Other platforms (assuming Unix-like)
 	add_executable(${PROJECT_NAME} ${APP_SRC_FILES})
 	target_link_libraries(${PROJECT_NAME} sfml-audio sfml-graphics sfml-window sfml-system)
-endif()	
+endif()
+
+configure_file(
+        "${CMAKE_SOURCE_DIR}/include/version.hpp.in"
+        "${CMAKE_SOURCE_DIR}/include/version.hpp"
+)
 
 # Set include directories
-target_include_directories(${PROJECT_NAME} PRIVATE include)
+target_include_directories(${PROJECT_NAME} PRIVATE "${CMAKE_SOURCE_DIR}/include")
 
 # Copy directories and files before build
 add_custom_command(
-	TARGET ${PROJECT_NAME} 
+	TARGET ${PROJECT_NAME}
 	PRE_BUILD
-	COMMAND ${CMAKE_COMMAND} 
+	COMMAND ${CMAKE_COMMAND}
 	-E copy_directory ${PROJECT_SOURCE_DIR}/gfx $<TARGET_FILE_DIR:${PROJECT_NAME}>/gfx)
 
 add_custom_command(
-	TARGET ${PROJECT_NAME} 
+	TARGET ${PROJECT_NAME}
 	PRE_BUILD
 	COMMAND ${CMAKE_COMMAND} -E copy_directory ${PROJECT_SOURCE_DIR}/sfx $<TARGET_FILE_DIR:${PROJECT_NAME}>/sfx)
 
 add_custom_command(
-	TARGET ${PROJECT_NAME} 
+	TARGET ${PROJECT_NAME}
 	PRE_BUILD
 	COMMAND ${CMAKE_COMMAND} -E copy ${PROJECT_SOURCE_DIR}/november.ttf $<TARGET_FILE_DIR:${PROJECT_NAME}>)
 
@@ -78,14 +83,14 @@ if (CMAKE_SYSTEM_NAME MATCHES "Windows")
 endif()
 
 # Generate NSIS installer if enabled
-if (SNAKE_GENERATE_INSTALLER)
+if (CYBERSERPENT_GENERATE_INSTALLER)
 	install(TARGETS ${PROJECT_NAME} DESTINATION ".")
 	install(DIRECTORY ${PROJECT_SOURCE_DIR}/gfx DESTINATION ".")
 	install(DIRECTORY ${PROJECT_SOURCE_DIR}/sfx DESTINATION ".")
-	install(FILES 
+	install(FILES
 		${PROJECT_SOURCE_DIR}/november.ttf
 		${PROJECT_SOURCE_DIR}/LICENSE
-		$<$<PLATFORM_ID:Windows>:${SFML_SOURCE_DIR}/extlibs/bin/$<IF:$<EQUAL:${CMAKE_SIZEOF_VOID_P},8>,x64,x86>/openal32.dll> 
+		$<$<PLATFORM_ID:Windows>:${SFML_SOURCE_DIR}/extlibs/bin/$<IF:$<EQUAL:${CMAKE_SIZEOF_VOID_P},8>,x64,x86>/openal32.dll>
 		DESTINATION ".")
 	set(CPACK_GENERATOR "NSIS")
 	set(CPACK_RESOURCE_FILE_LICENSE "${PROJECT_SOURCE_DIR}/LICENSE")
