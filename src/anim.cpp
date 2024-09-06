@@ -1,4 +1,5 @@
 #include <SFML/Graphics.hpp>
+#include <stdexcept>
 #include <iostream>
 #include "anim.hpp"
 #include "utils.hpp"
@@ -8,6 +9,7 @@
 using std::string;
 using sf::RenderWindow;
 using constants::FONT_FILENAME;
+using constants::FAILED_TO_LOAD_FILE_ERR;
 using sf::Vector2f;
 using sf::Color;
 using sf::Clock;
@@ -24,7 +26,8 @@ Anim::Anim (RenderWindow& window, unsigned int scale)
 	shape3(Vector2f(scale, scale)),
 	shape4(Vector2f(scale, scale))
 {
-        font.loadFromFile(FONT_FILENAME);
+        if (!font.loadFromFile(FONT_FILENAME))
+                throw std::runtime_error(FAILED_TO_LOAD_FILE_ERR + " '" + FONT_FILENAME + "'");
 }
 
 void Anim::explodeFood (bool& isActive, Color color, Vector2f foodPos, const float& time)

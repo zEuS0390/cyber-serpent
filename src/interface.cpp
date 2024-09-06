@@ -1,4 +1,5 @@
 #include <SFML/Graphics.hpp>
+#include <stdexcept>
 #include <iostream>
 #include <string>
 #include "interface.hpp"
@@ -12,25 +13,21 @@ using sf::Vector2f;
 using sf::Color;
 using sf::RenderWindow;
 using sf::Clock;
-
 using constants::FONT_FILENAME;
 using constants::WINDOW_SIZEX;
 using constants::WINDOW_SIZEY;
+using constants::FAILED_TO_LOAD_FILE_ERR;
 
 // Interface Text Class
 interfaceText::interfaceText (const string& filepath, const string& str, int charSize, Color color)
 {
         if (!font.loadFromFile(filepath))
-        {
-                cout << "Error loading font file." << endl;
-        }
-        else
-        {
-                setFillColor(color);
-                setFont(font);
-                setCharacterSize(charSize);
-                setString(str);
-        }
+                throw std::runtime_error(FAILED_TO_LOAD_FILE_ERR + " '" + filepath + "'");
+
+        setFillColor(color);
+        setFont(font);
+        setCharacterSize(charSize);
+        setString(str);
 }
 
 // Interface Class

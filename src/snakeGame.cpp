@@ -1,4 +1,5 @@
 #include <SFML/Graphics.hpp>
+#include <stdexcept>
 #include <string>
 #include "windowGrid.hpp"
 #include "snakeGame.hpp"
@@ -22,6 +23,7 @@ using sf::RectangleShape;
 using sf::Font;
 using sf::Text;
 using constants::FONT_FILENAME;
+using constants::FAILED_TO_LOAD_FILE_ERR;
 
 // snakeGame class constructor
 SnakeGame::SnakeGame (const unsigned int winX,
@@ -38,8 +40,8 @@ SnakeGame::SnakeGame (const unsigned int winX,
         anim            (window, winGrid.scale),
         interface       (&window)
 {
-	font.loadFromFile(FONT_FILENAME);
-        introduction.init();
+	if (!font.loadFromFile(FONT_FILENAME))
+                throw std::runtime_error(FAILED_TO_LOAD_FILE_ERR + " '" + FONT_FILENAME + "'");
         window.setMouseCursorVisible(false);
         snakeObj.initHeadPos(winGrid.scale, winGrid.scale);
 }

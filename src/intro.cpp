@@ -1,38 +1,43 @@
 #include <SFML/Graphics.hpp>
+#include <stdexcept>
 #include <iostream>
 #include "intro.hpp"
+#include "constants.hpp"
 
 using sf::RenderWindow;
 using sf::Color;
 using sf::Event;
 using sf::Keyboard;
+using constants::IMAGE_SFML_LOGO;
+using constants::IMAGE_CREATOR_LOGO;
 
 intro::intro (RenderWindow& renderWin)
-:   addVal(0.9f),
-    alpha(0),
-    fadeIn(true),
-    fadeOut(false),
-    isSFML(true),
-    isCreator(false),
-    isRunning(true),
-    renderWin(renderWin)
+:       addVal(0.9f),
+        alpha(0),
+        fadeIn(true),
+        fadeOut(false),
+        isSFML(true),
+        isCreator(false),
+        isRunning(true),
+        renderWin(renderWin)
 {
-    renderWin.setMouseCursorVisible(false);
+        renderWin.setMouseCursorVisible(false);
+        init();
 }
 
 void intro::init ()
 {
-    if (!sfmlLogo.loadFromFile("gfx/SFML_Logo.png"))
-        return;
+        if (!sfmlLogo.loadFromFile(IMAGE_SFML_LOGO))
+                throw std::runtime_error(constants::FAILED_TO_LOAD_FILE_ERR + ": '" + IMAGE_SFML_LOGO + "'");
 
-    if (!creatorLogo.loadFromFile("gfx/Creator_Logo.png"))
-        return;
+        if (!creatorLogo.loadFromFile(IMAGE_CREATOR_LOGO))
+                throw std::runtime_error(constants::FAILED_TO_LOAD_FILE_ERR + ": '" + IMAGE_CREATOR_LOGO + "'");
 
-    renderWin.setFramerateLimit(250);
-    texture.loadFromImage(sfmlLogo);
-    sprite.setTexture(texture);
-    sprite.setColor(Color(255, 255, 255, alpha));
-    loop();
+        renderWin.setFramerateLimit(250);
+        texture.loadFromImage(sfmlLogo);
+        sprite.setTexture(texture);
+        sprite.setColor(Color(255, 255, 255, alpha));
+        loop();
 }
 
 void intro::updates ()

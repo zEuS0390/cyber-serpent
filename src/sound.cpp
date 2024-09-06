@@ -19,6 +19,7 @@ using constants::SOUND_BUTTON_DOWN;
 using constants::SOUND_BUTTON_ENTER;
 using constants::SOUND_QUIT;
 using constants::SOUND_BLIP;
+using constants::FAILED_TO_LOAD_FILE_ERR;
 
 sound::sound (const string& filepath)
 {
@@ -38,10 +39,7 @@ void sound::setPitch (const float& pitch)
 void sound::init (const string& filepath)
 {
 	if (!buffer.loadFromFile(filepath))
-	{
-		cout << "Error loading sound file." << endl;
-		return;
-	}
+                throw std::runtime_error(FAILED_TO_LOAD_FILE_ERR + " '" + filepath + "'");
 	soundObj.setBuffer(buffer);
 	soundObj.setVolume(50.0f);
 }
