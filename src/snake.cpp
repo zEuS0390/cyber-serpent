@@ -13,16 +13,16 @@ snake::snake()
 
 void snake::increment ()
 {
-	Vector2f newPos = snakePos.back();
-	snakePos.push_back(newPos);
-	snakeBody.insert(newPos);
+    Vector2f newPos = snakePos.back();
+    snakePos.push_back(newPos);
+    snakeBody.insert(newPos);
 }
 
 void snake::initHeadPos (const unsigned int& x, const unsigned int& y)
 {
-	for (int i = 1; i <= 3; ++i) {
-		snakePos.emplace_front(x*i, y);
-		snakeBody.emplace(x*i, y);
-	}
+    for (int i = 1; i <= 3; ++i) {
+        snakePos.emplace_front(x*i, y);
+        snakeBody.emplace(x*i, y);
+    }
 }
 

@@ -16,8 +16,8 @@ using constants::GAME_VERSION;
 
 // Main execution of the program
 int main () {
-        SnakeGame snakeGame(WINDOW_SIZEX, WINDOW_SIZEY, WINDOW_TITLE + " " + GAME_VERSION);
-        snakeGame.run();
-	return 0;
+    SnakeGame snakeGame(WINDOW_SIZEX, WINDOW_SIZEY, WINDOW_TITLE + " " + GAME_VERSION);
+    snakeGame.run();
+    return 0;
 }
 

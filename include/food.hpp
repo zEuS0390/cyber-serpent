@@ -13,12 +13,12 @@ using sf::Vector2f;
 class food: public RectangleShape
 {
 public:
-	bool isHit;
-	food                    (Vector2f, unsigned int);
-	void setRandomPosition  (const snake&);
+    bool isHit;
+    food                    (Vector2f, unsigned int);
+    void setRandomPosition  (const snake&);
 private:
-        mt19937 eng;
-	unsigned int scale;
+    mt19937 eng;
+    unsigned int scale;
 };
 
 #endif

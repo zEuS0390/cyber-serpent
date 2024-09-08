@@ -22,14 +22,14 @@ struct direction
 class snake
 {
 public:
-        bool					isMoving;
-	struct					direction dir;
-	unordered_set<Vector2f, Vector2fHash>	snakeBody;
-	deque<Vector2f> 			snakePos;
-        snake                   		();
-        void movement           		(int);
-        void increment          		();
-        void initHeadPos        		(const unsigned int&, const unsigned int&);
+    bool                                    isMoving;
+    struct                                  direction dir;
+    unordered_set<Vector2f, Vector2fHash>   snakeBody;
+    deque<Vector2f>                         snakePos;
+    snake                                   ();
+    void movement                           (int);
+    void increment                          ();
+    void initHeadPos                        (const unsigned int&, const unsigned int&);
 };
 
 #endif

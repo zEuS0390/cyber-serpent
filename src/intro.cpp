@@ -12,32 +12,32 @@ using constants::IMAGE_SFML_LOGO;
 using constants::IMAGE_CREATOR_LOGO;
 
 intro::intro (RenderWindow& renderWin)
-:       addVal(0.9f),
-        alpha(0),
-        fadeIn(true),
-        fadeOut(false),
-        isSFML(true),
-        isCreator(false),
-        isRunning(true),
-        renderWin(renderWin)
+:   addVal(0.9f),
+    alpha(0),
+    fadeIn(true),
+    fadeOut(false),
+    isSFML(true),
+    isCreator(false),
+    isRunning(true),
+    renderWin(renderWin)
 {
-        renderWin.setMouseCursorVisible(false);
-        init();
+    renderWin.setMouseCursorVisible(false);
+    init();
 }
 
 void intro::init ()
 {
-        if (!sfmlLogo.loadFromFile(IMAGE_SFML_LOGO))
-                throw std::runtime_error(constants::FAILED_TO_LOAD_FILE_ERR + ": '" + IMAGE_SFML_LOGO + "'");
+    if (!sfmlLogo.loadFromFile(IMAGE_SFML_LOGO))
+        throw std::runtime_error(constants::FAILED_TO_LOAD_FILE_ERR + ": '" + IMAGE_SFML_LOGO + "'");
 
-        if (!creatorLogo.loadFromFile(IMAGE_CREATOR_LOGO))
-                throw std::runtime_error(constants::FAILED_TO_LOAD_FILE_ERR + ": '" + IMAGE_CREATOR_LOGO + "'");
+    if (!creatorLogo.loadFromFile(IMAGE_CREATOR_LOGO))
+        throw std::runtime_error(constants::FAILED_TO_LOAD_FILE_ERR + ": '" + IMAGE_CREATOR_LOGO + "'");
 
-        renderWin.setFramerateLimit(250);
-        texture.loadFromImage(sfmlLogo);
-        sprite.setTexture(texture);
-        sprite.setColor(Color(255, 255, 255, alpha));
-        loop();
+    renderWin.setFramerateLimit(250);
+    texture.loadFromImage(sfmlLogo);
+    sprite.setTexture(texture);
+    sprite.setColor(Color(255, 255, 255, alpha));
+    loop();
 }
 
 void intro::updates ()
@@ -45,24 +45,25 @@ void intro::updates ()
     if (fadeIn)
     {
         if (isSFML)
-	{
+        {
             if (alpha <= 255)
-	    {
+            {
                 alpha += addVal;
-            } else
-	    {
+            }
+            else
+            {
                 fadeIn = false;
                 fadeOut = true;
             }
         }
-	else if (isCreator)
-	{
+        else if (isCreator)
+        {
             if (alpha <= 255)
-	    {
+            {
                 alpha += addVal;
             }
-	    else
-	    {
+            else
+            {
                 fadeIn = false;
                 fadeOut = true;
             }
@@ -72,13 +73,13 @@ void intro::updates ()
     else if (clock.getElapsedTime().asSeconds() >= 1.0f && fadeOut)
     {
         if (isSFML)
-	{
+        {
             if (alpha >= 0)
-	    {
+            {
                 alpha -= addVal;
             }
-	    else
-	    {
+            else
+            {
                 texture.loadFromImage(creatorLogo);
                 isCreator = true;
                 isSFML = false;
@@ -86,14 +87,14 @@ void intro::updates ()
                 fadeOut = false;
             }
         }
-	else if (isCreator)
-	{
+        else if (isCreator)
+        {
             if (alpha >= 0)
-	    {
+            {
                 alpha -= addVal;
             }
-	    else
-	    {
+            else
+            {
                 isRunning = false;
                 isCreator = false;
                 fadeOut = false;
@@ -109,9 +110,9 @@ void intro::events ()
     while (renderWin.pollEvent(event))
     {
         if (event.type == Event::KeyPressed)
-	{
+        {
             if (event.key.code == Keyboard::Escape)
-                isRunning = false;
+            isRunning = false;
         }
     }
 }

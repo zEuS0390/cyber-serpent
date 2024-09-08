@@ -16,25 +16,25 @@ using std::unique_ptr;
 class sound
 {
 public:
-        explicit sound                                  (const string&);
-        void playSound                                  ();
-        void setPitch                                   (const float&);
+    explicit sound  (const string&);
+    void playSound  ();
+    void setPitch   (const float&);
 private:
-        SoundBuffer                                     buffer;
-        Sound                                           soundObj;
-	void init                                       (const string&);
+    SoundBuffer     buffer;
+    Sound           soundObj;
+    void init       (const string&);
 };
 
 // soundManager class
 class SoundManager
 {
 public:
-        SoundManager                                    ();
-        void audioInit                                  ();
-        void playAudio                                  (const string&);
-        void setPitch                                   (const string&, const float&);
+    SoundManager                                ();
+    void audioInit                              ();
+    void playAudio                              (const string&);
+    void setPitch                               (const string&, const float&);
 private:
-	unordered_map<string, unique_ptr<sound>>        audioCont;
+    unordered_map<string, unique_ptr<sound>>    audioCont;
 };
 
 #endif

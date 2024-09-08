@@ -10,11 +10,12 @@ using std::hash;
 
 struct Vector2fHash
 {
-	inline size_t operator()(const Vector2f& pos) const {
-		int x = hash<float>()(pos.x);
-		int y = hash<float>()(pos.y) << 1;
-		return x ^ y;
-	}
+    inline size_t operator()(const Vector2f& pos) const
+    {
+        int x = hash<float>()(pos.x);
+        int y = hash<float>()(pos.y) << 1;
+        return x ^ y;
+    }
 };
 
 std::string intToStr (const int& number);

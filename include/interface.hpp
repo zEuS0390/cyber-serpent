@@ -17,39 +17,39 @@ using sf::Vector2f;
 class interfaceText : public Text
 {
 public:
-        interfaceText (const string&, const string&, int, Color);
+    interfaceText (const string&, const string&, int, Color);
 private:
-        Font font;
+    Font font;
 };
 
 // interface class
 class Interface
 {
 public:
-        bool isMenu;
-        int menuSelect;
-        explicit Interface              (RenderWindow*);
-        void check                      (string);
-        void menu                       (Clock&);
-        // Frame Object
-        RectangleShape                  frameObj;
-        Vector2f                        framePos;
+    bool isMenu;
+    int menuSelect;
+    explicit Interface  (RenderWindow*);
+    void check          (string);
+    void menu           (Clock&);
+    // Frame Object
+    RectangleShape      frameObj;
+    Vector2f            framePos;
 private:
-        RenderWindow*                   window;
-        Color                           color;
-        // Highlight Select Object
-        RectangleShape                  frameSelect;
-        // Menu Interface Objects
-        interfaceText                   title;
-        interfaceText                   developer;
-        interfaceText                   play;
-        interfaceText                   exit;
-        Vector2f                        menuGroupPos;
-        Vector2f                        titlePos;
-        Vector2f                        devPos;
-        Vector2f                        playPos;
-        Vector2f                        exitPos;
-        void frame                      ();
+    RenderWindow*       window;
+    Color               color;
+    // Highlight Select Object
+    RectangleShape      frameSelect;
+    // Menu Interface Objects
+    interfaceText       title;
+    interfaceText       developer;
+    interfaceText       play;
+    interfaceText       exit;
+    Vector2f            menuGroupPos;
+    Vector2f            titlePos;
+    Vector2f            devPos;
+    Vector2f            playPos;
+    Vector2f            exitPos;
+    void frame          ();
 };
 
 #endif
