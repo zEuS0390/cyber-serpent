@@ -6,6 +6,7 @@
 #include <string>
 #include <vector>
 #include <queue>
+#include "scoreManager.hpp"
 #include "windowGrid.hpp"
 #include "interface.hpp"
 #include "snake.hpp"
@@ -37,7 +38,6 @@ public:
     SnakeGame               (const unsigned int, const unsigned int, const string&);
     void run                ();
 private:
-    int  score;
     bool isRunning;
     bool isHit;
     void updates            ();
@@ -61,6 +61,7 @@ private:
     Anim                    anim;
     Vector2f                lastFoodPos;
     Interface               interface;
+    ScoreManager            scoreManager;
 };
 
 #endif

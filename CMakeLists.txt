@@ -22,7 +22,7 @@ set(APP_SRC_FILES
 	src/intro.cpp src/main.cpp
 	src/snake.cpp src/snakeGame.cpp
 	src/sound.cpp src/windowGrid.cpp
-	src/utils.cpp
+	src/utils.cpp src/scoreManager.cpp
 )
 
 set(FETCHCONTENT_QUIET FALSE)

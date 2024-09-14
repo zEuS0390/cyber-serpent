@@ -1,6 +1,7 @@
 #include <SFML/Graphics.hpp>
 #include <stdexcept>
 #include <string>
+#include "scoreManager.hpp"
 #include "windowGrid.hpp"
 #include "snakeGame.hpp"
 #include "interface.hpp"
@@ -27,8 +28,7 @@ using constants::FAILED_TO_LOAD_FILE_ERR;
 
 // snakeGame class constructor
 SnakeGame::SnakeGame (const unsigned int winX, const unsigned int winY, const string& windowTitle)
-:   score           (0),
-    isRunning       (true),
+:   isRunning       (true),
     isHit           (false),
     colors          {true, false, false, false},
     winGrid         (winX, winY),
@@ -133,7 +133,7 @@ void SnakeGame::events ()
                                 interface.isMenu = false;
                                 snakeObj.isMoving = true;
                                 foodObj.setRandomPosition(snakeObj);
-                                score = 0;
+                                scoreManager.resetScore();
                             }
                             else if (interface.menuSelect == 2)
                             {
@@ -147,7 +147,7 @@ void SnakeGame::events ()
                         {
                             soundManager.playAudio("quit");
                             anim.total = 0;
-                            score = 0;
+                            scoreManager.resetScore();
                             resetGame();
                             interface.isMenu = true;
                             snakeObj.isMoving = false;
@@ -243,7 +243,7 @@ void SnakeGame::render (const float& time)
 
     if (interface.isMenu)
     {
-        anim.scoreAnim(soundManager, scoreClock, Color::Red, score, Vector2f(interface.framePos.x + interface.frameObj.getGlobalBounds().width + 20, interface.framePos.y));
+        anim.scoreAnim(soundManager, scoreClock, Color::Red, scoreManager.getScore(), Vector2f(interface.framePos.x + interface.frameObj.getGlobalBounds().width + 20, interface.framePos.y));
         interface.menu(menuClock);
     }
 	else
@@ -341,7 +341,7 @@ void SnakeGame::renderSnake ()
 
     if (head.x == food.x && head.y == food.y)
     {
-        ++score;
+        scoreManager.addScore(1);
         foodObj.isHit = true;
         soundManager.playAudio("food");
         snakeObj.increment();
@@ -363,7 +363,7 @@ void SnakeGame::renderSnake ()
         window.draw(shape);
     }
 
-    Text text(intToStr(score), font);
+    Text text(intToStr(scoreManager.getScore()), font);
     text.setFillColor(Color::Red);
     text.setPosition(head.x + winGrid.scale * 2, head.y - winGrid.scale * 2);
 
