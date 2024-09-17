@@ -28,15 +28,15 @@ using constants::FAILED_TO_LOAD_FILE_ERR;
 
 // snakeGame class constructor
 SnakeGame::SnakeGame (const unsigned int winX, const unsigned int winY, const string& windowTitle)
-:   isRunning       (true),
-    isHit           (false),
+:   isRunning       {true},
+    isHit           {false},
     colors          {true, false, false, false},
-    winGrid         (winX, winY),
-    foodObj         (Vector2f(winGrid.scale, winGrid.scale), winGrid.scale),
-    window          (VideoMode(winX, winY), windowTitle),
-    introduction    (window),
-    anim            (window, winGrid.scale),
-    interface       (&window)
+    winGrid         {winX, winY},
+    foodObj         {Vector2f(winGrid.scale, winGrid.scale), winGrid.scale},
+    window          {VideoMode(winX, winY), windowTitle},
+    introduction    {window},
+    anim            {window, winGrid.scale},
+    interface       {&window}
 {
     if (!font.loadFromFile(FONT_FILENAME))
         throw std::runtime_error(FAILED_TO_LOAD_FILE_ERR + " '" + FONT_FILENAME + "'");

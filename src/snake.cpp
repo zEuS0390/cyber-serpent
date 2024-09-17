@@ -6,7 +6,7 @@ using sf::Vector2f;
 
 // snake class constructor
 snake::snake()
-:   isMoving(false),
+:   isMoving{false},
     dir{false, false, false, true}
 {
 }

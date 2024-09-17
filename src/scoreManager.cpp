@@ -1,12 +1,12 @@
 #include "scoreManager.hpp"
 
 ScoreManager::ScoreManager (int value)
-:   score(value)
+:   score{value}
 {
 }
 
 ScoreManager::ScoreManager ()
-:   score(0)
+:   score{0}
 {
 }
 

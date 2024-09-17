@@ -12,10 +12,10 @@ using constants::WINDOW_SIZEX;
 using constants::WINDOW_SIZEY;
 
 food::food (Vector2f rectSize, unsigned int scale)
-:   RectangleShape(rectSize),
-    isHit(false),
-    scale(scale),
-    eng(time(nullptr))
+:   RectangleShape{rectSize},
+    isHit{false},
+    scale{scale},
+    eng{static_cast<unsigned long>(time(nullptr))}
 {
     setFillColor(Color(0, 255, 0));
 }

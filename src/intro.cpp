@@ -12,14 +12,14 @@ using constants::IMAGE_SFML_LOGO;
 using constants::IMAGE_CREATOR_LOGO;
 
 intro::intro (RenderWindow& renderWin)
-:   addVal(0.9f),
-    alpha(0),
-    fadeIn(true),
-    fadeOut(false),
-    isSFML(true),
-    isCreator(false),
-    isRunning(true),
-    renderWin(renderWin)
+:   addVal{0.9f},
+    alpha{0},
+    fadeIn{true},
+    fadeOut{false},
+    isSFML{true},
+    isCreator{false},
+    isRunning{true},
+    renderWin{renderWin}
 {
     renderWin.setMouseCursorVisible(false);
     init();

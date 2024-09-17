@@ -15,15 +15,15 @@ using sf::Color;
 using sf::Clock;
 
 Anim::Anim (RenderWindow& window, unsigned int scale)
-:   scale(scale),
-    total(0),
-    pitch(0.1f),
-    scoreOnce(false),
-    window(window),
-    shape1(Vector2f(scale, scale)),
-    shape2(Vector2f(scale, scale)),
-    shape3(Vector2f(scale, scale)),
-    shape4(Vector2f(scale, scale))
+:   scale{scale},
+    total{0},
+    pitch{0.1f},
+    scoreOnce{false},
+    window{window},
+    shape1{Vector2f(scale, scale)},
+    shape2{Vector2f(scale, scale)},
+    shape3{Vector2f(scale, scale)},
+    shape4{Vector2f(scale, scale)}
 {
     if (!font.loadFromFile(FONT_FILENAME))
         throw std::runtime_error(FAILED_TO_LOAD_FILE_ERR + " '" + FONT_FILENAME + "'");
