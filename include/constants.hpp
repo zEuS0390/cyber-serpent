@@ -2,6 +2,7 @@
 #define CONSTANTS_HPP
 
 #include <string>
+#include "utils.hpp"
 #include "version.hpp"
 
 namespace constants
@@ -11,6 +12,7 @@ namespace constants
     constexpr unsigned int	WINDOW_SIZEX =              640;
     constexpr unsigned int	WINDOW_SIZEY =              480;
     constexpr unsigned int	GRID_SCALE =                20;
+    const std::string       HIGH_SCORE_FILENAME =       "highscore.txt";
     const std::string       FONT_FILENAME =             "november.ttf";
     const std::string       SOUNDFILE_DEAD =            "sfx/dead.wav";
     const std::string       SOUNDFILE_FOOD =            "sfx/food.wav";
@@ -21,6 +23,7 @@ namespace constants
     const std::string       SOUNDFILE_BUTTON_ENTER =    "sfx/button_enter.wav";
     const std::string       SOUNDFILE_QUIT =            "sfx/quit.wav";
     const std::string       SOUNDFILE_BLIP =            "sfx/blip.wav";
+    const std::string       SOUNDFILE_HIGH_SCORE =      "sfx/high_score.wav";
     const std::string       IMAGE_SFML_LOGO =           "gfx/SFML_Logo.png";
     const std::string       IMAGE_CREATOR_LOGO =        "gfx/Creator_Logo.png";
     const std::string       FAILED_TO_LOAD_FILE_ERR =   "Failed to load file";

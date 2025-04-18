@@ -19,6 +19,9 @@ struct Vector2fHash
 };
 
 std::string intToStr (const int& number);
+std::string getExecutablePath ();
+std::string getExecutableDir ();
+std::string joinPath (const std::string&, const std::string&);
 
 #endif
 

@@ -1,13 +1,10 @@
 #include <SFML/Graphics.hpp>
 #include <stdexcept>
-#include <iostream>
 #include <string>
 #include "interface.hpp"
 #include "constants.hpp"
 #include "anim.hpp"
 
-using std::cout;
-using std::endl;
 using std::string;
 using sf::Vector2f;
 using sf::Color;
@@ -43,10 +40,10 @@ Interface::Interface (RenderWindow* window)
                      WINDOW_SIZEY/2 - frameObj.getGlobalBounds().height/2),
 
     // Menu Interface Objects
-    title           (FONT_FILENAME, "CYBERSERPENT", 42, Color::Green),
-    developer       (FONT_FILENAME, "By zEuS0390", 32, Color::Green),
-    play            (FONT_FILENAME, "PLAY", 32, Color(0, 255, 0)),
-    exit            (FONT_FILENAME, "EXIT", 32, Color(0, 255, 0)),
+    title           (joinPath(getExecutableDir(), FONT_FILENAME), "CYBERSERPENT", 42, Color::Green),
+    developer       (joinPath(getExecutableDir(), FONT_FILENAME), "By zEuS0390", 32, Color::Green),
+    play            (joinPath(getExecutableDir(), FONT_FILENAME), "PLAY", 32, Color(0, 255, 0)),
+    exit            (joinPath(getExecutableDir(), FONT_FILENAME), "EXIT", 32, Color(0, 255, 0)),
 
     menuGroupPos    (framePos.x + frameObj.getGlobalBounds().width/2,
                      framePos.y + frameObj.getGlobalBounds().height/2 -

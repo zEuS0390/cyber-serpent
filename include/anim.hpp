@@ -16,19 +16,19 @@ public:
     unsigned int        scale;
     unsigned int        total;
     float               pitch;
-    bool                scoreOnce;
+    bool                playHighScoreFlag;
+    bool                showScoreAnimFlag;
+    bool                showScoreAnimAccumulateFlag;
     Anim                (RenderWindow&, unsigned int);
     void explodeFood    (bool&, Color, Vector2f, const float&);
-    void scoreAnim      (SoundManager&, Clock&, Color, unsigned int, Vector2f);
+    void showScoreAnim  (SoundManager&, Clock&, Color, unsigned int, Vector2f);
 private:
     sf::RenderWindow&   window;
     sf::Color           color;
-    // explodeFood
     sf::RectangleShape  shape1;
     sf::RectangleShape  shape2;
     sf::RectangleShape  shape3;
     sf::RectangleShape  shape4;
-    // scoreAnim
     sf::Text            text;
     sf::Font            font;
 };

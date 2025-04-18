@@ -1,5 +1,4 @@
 #include <SFML/Graphics.hpp>
-#include <iostream>
 #include "snake.hpp"
 
 using sf::Vector2f;

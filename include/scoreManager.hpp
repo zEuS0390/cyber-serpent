@@ -4,14 +4,17 @@
 class ScoreManager
 {
 public:
-    ScoreManager        (int);
-    ScoreManager        ();
-    void setScore       (int);
-    int getScore        () const;
-    void addScore       (int);
-    void resetScore     ();
+    ScoreManager            (int);
+    ScoreManager            ();
+    int getScore            () const;
+    void addScore           (int);
+    void resetScore         ();
+    int getHighScore        () const;
+    void saveHighScore      ();
+    void loadHighScore      ();
 private:
     int score;
+    int high_score;
 };
 
 #endif

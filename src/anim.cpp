@@ -1,6 +1,5 @@
 #include <SFML/Graphics.hpp>
 #include <stdexcept>
-#include <iostream>
 #include "anim.hpp"
 #include "utils.hpp"
 #include "sound.hpp"
@@ -18,14 +17,16 @@ Anim::Anim (RenderWindow& window, unsigned int scale)
 :   scale{scale},
     total{0},
     pitch{0.1f},
-    scoreOnce{false},
+    playHighScoreFlag{false},
+    showScoreAnimFlag{false},
+    showScoreAnimAccumulateFlag{false},
     window{window},
     shape1{Vector2f(scale, scale)},
     shape2{Vector2f(scale, scale)},
     shape3{Vector2f(scale, scale)},
     shape4{Vector2f(scale, scale)}
 {
-    if (!font.loadFromFile(FONT_FILENAME))
+    if (!font.loadFromFile(joinPath(getExecutableDir(), FONT_FILENAME)))
         throw std::runtime_error(FAILED_TO_LOAD_FILE_ERR + " '" + FONT_FILENAME + "'");
 }
 
@@ -88,28 +89,46 @@ void Anim::explodeFood (bool& isActive, Color color, Vector2f foodPos, const flo
     }
 }
 
-void Anim::scoreAnim (SoundManager& soundManager, Clock& clock, Color color, unsigned int score, Vector2f position)
+void Anim::showScoreAnim (SoundManager& soundManager, Clock& clock, Color color, unsigned int score, Vector2f position)
 {
-    float time = clock.getElapsedTime().asSeconds();
-
-    if (time >= 1.0f)
-        scoreOnce = true;
-
-    if (scoreOnce && score > 0)
+    if (showScoreAnimFlag)
     {
-        if (time >= 0.09f && total < score)
+        float time = clock.getElapsedTime().asSeconds();
+
+        if (time >= 1.0f)
+            showScoreAnimAccumulateFlag = true;
+
+        if (showScoreAnimAccumulateFlag)
         {
-            soundManager.setPitch("blip", pitch);
-            soundManager.playAudio("blip");
-            total += 1;
-            clock.restart();
-            if (pitch <= 2.0)
-                pitch+=0.1;
+            if (time >= 0.09f && total < score)
+            {
+                soundManager.setPitch("blip", pitch);
+                soundManager.playAudio("blip");
+                total += 1;
+                clock.restart();
+                if (pitch <= 2.0)
+                    pitch+=0.1;
+            }
+            text.setCharacterSize(32);
+            text.setFont(font);
+            text.setFillColor(color);
+            text.setString(intToStr(total));
+            text.setPosition(position);
+            window.draw(text);
         }
+
+        if (playHighScoreFlag && total >= score)
+        {
+            soundManager.playAudio("high_score");
+            playHighScoreFlag = false;
+        }
+    }
+    else
+    {
         text.setCharacterSize(32);
         text.setFont(font);
         text.setFillColor(color);
-        text.setString(intToStr(total));
+        text.setString(intToStr(score));
         text.setPosition(position);
         window.draw(text);
     }

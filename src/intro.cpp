@@ -1,6 +1,6 @@
 #include <SFML/Graphics.hpp>
 #include <stdexcept>
-#include <iostream>
+#include "utils.hpp"
 #include "intro.hpp"
 #include "constants.hpp"
 
@@ -27,10 +27,10 @@ intro::intro (RenderWindow& renderWin)
 
 void intro::init ()
 {
-    if (!sfmlLogo.loadFromFile(IMAGE_SFML_LOGO))
+    if (!sfmlLogo.loadFromFile(joinPath(getExecutableDir(), IMAGE_SFML_LOGO)))
         throw std::runtime_error(constants::FAILED_TO_LOAD_FILE_ERR + ": '" + IMAGE_SFML_LOGO + "'");
 
-    if (!creatorLogo.loadFromFile(IMAGE_CREATOR_LOGO))
+    if (!creatorLogo.loadFromFile(joinPath(getExecutableDir(), IMAGE_CREATOR_LOGO)))
         throw std::runtime_error(constants::FAILED_TO_LOAD_FILE_ERR + ": '" + IMAGE_CREATOR_LOGO + "'");
 
     renderWin.setFramerateLimit(250);

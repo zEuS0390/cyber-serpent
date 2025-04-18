@@ -38,7 +38,7 @@ SnakeGame::SnakeGame (const unsigned int winX, const unsigned int winY, const st
     anim            {window, winGrid.scale},
     interface       {&window}
 {
-    if (!font.loadFromFile(FONT_FILENAME))
+    if (!font.loadFromFile(joinPath(getExecutableDir(), FONT_FILENAME)))
         throw std::runtime_error(FAILED_TO_LOAD_FILE_ERR + " '" + FONT_FILENAME + "'");
     window.setMouseCursorVisible(false);
     snakeObj.initHeadPos(winGrid.scale, winGrid.scale);
@@ -147,6 +147,7 @@ void SnakeGame::events ()
                         {
                             soundManager.playAudio("quit");
                             anim.total = 0;
+                            anim.showScoreAnimFlag = false;
                             scoreManager.resetScore();
                             resetGame();
                             interface.isMenu = true;
@@ -231,6 +232,12 @@ void SnakeGame::updates()
     if (snakeObj.snakeBody.find(snakeObj.snakePos.front()) != snakeObj.snakeBody.end())
     {
         soundManager.playAudio("dead");
+        if (scoreManager.getScore() > scoreManager.getHighScore())
+            anim.playHighScoreFlag = true;
+        anim.showScoreAnimFlag = true;
+        anim.showScoreAnimAccumulateFlag = false;
+        scoreClock.restart();
+        scoreManager.saveHighScore();
         resetGame();
     }
 }
@@ -243,7 +250,13 @@ void SnakeGame::render (const float& time)
 
     if (interface.isMenu)
     {
-        anim.scoreAnim(soundManager, scoreClock, Color::Red, scoreManager.getScore(), Vector2f(interface.framePos.x + interface.frameObj.getGlobalBounds().width + 20, interface.framePos.y));
+        anim.showScoreAnim(
+            soundManager,
+            scoreClock,
+            Color::Red,
+            (anim.showScoreAnimFlag)? scoreManager.getScore() : scoreManager.getHighScore(),
+            Vector2f(interface.framePos.x + interface.frameObj.getGlobalBounds().width + 20, interface.framePos.y)
+        );
         interface.menu(menuClock);
     }
 	else
@@ -375,7 +388,6 @@ void SnakeGame::resetGame ()
     menuClock.restart();
     scoreClock.restart();
     anim.total = 0;
-    anim.scoreOnce = false;
     anim.pitch = 0.1;
     interface.isMenu = true;
     colors = {true, false, false, false};
