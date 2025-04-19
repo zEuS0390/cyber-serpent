@@ -2,7 +2,7 @@
 cmake_minimum_required(VERSION 3.21)
 
 # Project name and version
-project(CyberSerpent VERSION 1.4.1)
+project(CyberSerpent VERSION 1.5.1)
 
 # Options for the project
 option(CYBERSERPENT_GENERATE_INSTALLER "Generate Installer (NSIS)" FALSE)
