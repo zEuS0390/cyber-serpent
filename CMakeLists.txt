@@ -42,10 +42,14 @@ if (CMAKE_SYSTEM_NAME MATCHES "Windows")
 	add_executable(${PROJECT_NAME} WIN32 ${APP_SRC_FILES} $<$<PLATFORM_ID:Windows>:${APP_ICON_RC}>)
 	target_link_libraries(${PROJECT_NAME} sfml-audio sfml-graphics sfml-window sfml-system
 		-static-libgcc -static-libstdc++ -Wl,-Bstatic -lstdc++ -lpthread -Wl,-Bdynamic)
-else()
-	# Other platforms (assuming Unix-like)
+elseif(CMAKE_SYSTEM_NAME MATCHES "Linux")
 	add_executable(${PROJECT_NAME} ${APP_SRC_FILES})
+    if (BUILD_SHARED_LIBS)
+        set_target_properties(CyberSerpent PROPERTIES INSTALL_RPATH "$ORIGIN/lib")
+    endif()
 	target_link_libraries(${PROJECT_NAME} sfml-audio sfml-graphics sfml-window sfml-system)
+else()
+    message(FATAL_ERROR "Unsupported platform: ${CMAKE_SYSTEM_NAME}. Only Windows and Linux are supported.")
 endif()
 
 configure_file(
