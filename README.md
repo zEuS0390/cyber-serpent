@@ -7,7 +7,7 @@ CyberSerpent is essentially a classic snake game that moves in different directi
 ## Installation
 The binaries I have made so far are for Linux and Windows machines; I haven’t tried to build them on macOS. Just go to the latest release link and download the installer or archive file for your operating system.
 
-<b>Download the Latest Release:</b> https://github.com/zEuS0390/cpp-sfml-snake-game/releases/latest
+<b>Download the Latest Release:</b> https://github.com/zEuS0390/cyber-serpent/releases/latest
 
 ## Build from Source
 You can build the game from the source using the [CMake](https://cmake.org/download/) tool, so make sure you have it installed. I designed it to allow you to easily build it on your own machine. The game was created with the SFML library, but since it's already defined in the CMake configuration file, you don’t need to handle it manually.
