@@ -281,8 +281,8 @@ void SnakeGame::render (const float& time)
             anim.explodeFood(foodObj.isHit, Color(255, 165, 0, 150), lastFoodPos, time);
             foodObj.setFillColor(Color(255, 165, 0));
         }
-        renderSnake();
         window.draw(foodObj);
+        renderSnake();
 	}
 
 	window.display();
@@ -376,10 +376,10 @@ void SnakeGame::renderSnake ()
         window.draw(shape);
     }
 
-    Text text(intToStr(scoreManager.getScore()), font);
-    text.setFillColor(Color::Red);
+    const int score = scoreManager.getScore();
+    Text text(intToStr(score), font);
+    text.setFillColor(score < scoreManager.getHighScore()? Color::Blue: Color::Red);
     text.setPosition(head.x + winGrid.scale * 2, head.y - winGrid.scale * 2);
-
     window.draw(text);
 }
 
