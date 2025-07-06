@@ -57,11 +57,11 @@ endif()
 # Configure version.hpp from template with version info (writes to build dir)
 configure_file(
         "${CMAKE_SOURCE_DIR}/include/version.hpp.in"
-        "${CMAKE_SOURCE_DIR}/include/version.hpp"
+        "${CMAKE_BINARY_DIR}/generated/include/version.hpp"
 )
 
 # Set include directories
-target_include_directories(${PROJECT_NAME} PRIVATE "${CMAKE_SOURCE_DIR}/include")
+target_include_directories(${PROJECT_NAME} PRIVATE "${CMAKE_SOURCE_DIR}/include" "${CMAKE_BINARY_DIR}/generated/include")
 
 # Copy directories and files before build
 add_custom_command(
