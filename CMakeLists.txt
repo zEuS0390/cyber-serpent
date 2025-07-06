@@ -25,6 +25,8 @@ set(APP_SRC_FILES
 	src/utils.cpp src/scoreManager.cpp
 )
 
+# Unsuppress output messages during the download and update process of external
+# content via FetchContent_Declare() and FetchContent_MakeAvailable()
 set(FETCHCONTENT_QUIET FALSE)
 
 # Include SFML using FetchContent
@@ -52,6 +54,7 @@ else()
     message(FATAL_ERROR "Unsupported platform: ${CMAKE_SYSTEM_NAME}. Only Windows and Linux are supported.")
 endif()
 
+# Configure version.hpp from template with version info (writes to build dir)
 configure_file(
         "${CMAKE_SOURCE_DIR}/include/version.hpp.in"
         "${CMAKE_SOURCE_DIR}/include/version.hpp"
