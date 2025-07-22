@@ -4,6 +4,7 @@
 #include "interface.hpp"
 #include "constants.hpp"
 #include "anim.hpp"
+#include "utils.hpp"
 
 using std::string;
 using sf::Vector2f;
@@ -35,9 +36,9 @@ Interface::Interface (RenderWindow* window)
     window(window),
 
     // Frame Object
-    frameObj        (Vector2f(WINDOW_SIZEX/2, WINDOW_SIZEY/2)),
-    framePos        (WINDOW_SIZEX/2 - frameObj.getGlobalBounds().width/2,
-                     WINDOW_SIZEY/2 - frameObj.getGlobalBounds().height/2),
+    frameObj        (Vector2f(WINDOW_SIZEX * 0.5f, WINDOW_SIZEY * 0.5f)),
+    framePos        (WINDOW_SIZEX * 0.5f - frameObj.getGlobalBounds().width * 0.5f,
+                     WINDOW_SIZEY * 0.5f - frameObj.getGlobalBounds().height * 0.5f),
 
     // Menu Interface Objects
     title           (joinPath(getExecutableDir(), FONT_FILENAME), "CYBERSERPENT", 42, Color::Green),

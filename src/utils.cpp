@@ -32,8 +32,8 @@ string getExecutablePath ()
     return string(buffer);
 }
 
-std::string getExecutableDir() {
-    std::string path = getExecutablePath();
+string getExecutableDir() {
+    string path = getExecutablePath();
     size_t slash = path.find_last_of("/\\");
     return path.substr(0, slash);
 }

@@ -2,7 +2,6 @@
 #define CONSTANTS_HPP
 
 #include <string>
-#include "utils.hpp"
 #include "version.hpp"
 
 namespace constants

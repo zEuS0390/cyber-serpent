@@ -1,6 +1,5 @@
 #include <random>
 #include <ctime>
-#include "windowGrid.hpp"
 #include "constants.hpp"
 #include "snake.hpp"
 #include "food.hpp"

@@ -3,7 +3,6 @@
 
 #include <SFML/Graphics.hpp>
 #include <random>
-#include "windowGrid.hpp"
 #include "snake.hpp"
 
 using std::mt19937;

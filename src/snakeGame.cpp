@@ -11,7 +11,6 @@
 #include "anim.hpp"
 #include "utils.hpp"
 
-using std::next;
 using std::string;
 using sf::Vector2f;
 using sf::VideoMode;
@@ -21,7 +20,6 @@ using sf::Color;
 using sf::Vertex;
 using sf::Lines;
 using sf::RectangleShape;
-using sf::Font;
 using sf::Text;
 using constants::FONT_FILENAME;
 using constants::FAILED_TO_LOAD_FILE_ERR;

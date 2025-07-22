@@ -5,7 +5,6 @@
 #include <SFML/Audio.hpp>
 #include <string>
 #include <vector>
-#include <queue>
 #include "scoreManager.hpp"
 #include "windowGrid.hpp"
 #include "interface.hpp"

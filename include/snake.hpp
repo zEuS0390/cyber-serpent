@@ -12,10 +12,10 @@ using std::deque;
 
 struct direction
 {
-    bool up {false};
-    bool down {false};
-    bool left {false};
-    bool right {false};
+    bool up     {false};
+    bool down   {false};
+    bool left   {false};
+    bool right  {false};
 };
 
 // snake class
