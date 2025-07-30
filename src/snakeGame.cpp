@@ -76,90 +76,80 @@ void SnakeGame::events ()
                     snakeObj.isMoving = true;
                 break;
             case Event::KeyPressed:
-                if (!is_keypressed)
-                {
-                    is_keypressed = true;
-                    if (event.key.code == Keyboard::W || event.key.code == Keyboard::Up)
-                    {
-                        if (snakeObj.isMoving && !snakeObj.dir.up && !snakeObj.dir.down)
-                        {
-                            soundManager.playAudio("snake");
-                            snakeObj.dir = {true, false, false, false};
-                        }
-                        else if (interface.isMenu)
-                        {
-                            interface.menuSelect = (interface.menuSelect % 2) + 1;
-                            soundManager.playAudio("button_up");
-                        }
-                    }
-                    if (event.key.code == Keyboard::S || event.key.code == Keyboard::Down)
-                    {
-                        if (snakeObj.isMoving && !snakeObj.dir.down && !snakeObj.dir.up)
-                        {
-                            soundManager.playAudio("snake");
-                            snakeObj.dir = {false, true, false, false};
-                        }
-                        else if (interface.isMenu)
-                        {
-                            interface.menuSelect = (interface.menuSelect % 2) + 1;
-                            soundManager.playAudio("button_down");
-                        }
-                    }
-                    if (event.key.code == Keyboard::A || event.key.code == Keyboard::Left)
-                    {
-                        if (snakeObj.isMoving && !snakeObj.dir.left && !snakeObj.dir.right)
-                        {
-                            soundManager.playAudio("snake");
-                            snakeObj.dir = {false, false, true, false};
-                        }
-                    }
-                    if (event.key.code == Keyboard::D || event.key.code == Keyboard::Right)
-                    {
-                        if (snakeObj.isMoving && !snakeObj.dir.right && !snakeObj.dir.left)
-                        {
-                            soundManager.playAudio("snake");
-                            snakeObj.dir = {false, false, false, true};
-                        }
-                    }
-                    if (event.key.code == Keyboard::Enter)
-                    {
-                        if (interface.isMenu)
-                        {
-                            if (interface.menuSelect == 1)
-                            {
-                                soundManager.playAudio("button_enter");
-                                interface.isMenu = false;
-                                snakeObj.isMoving = true;
-                                foodObj.setRandomPosition(snakeObj);
-                                scoreManager.resetScore();
-                            }
-                            else if (interface.menuSelect == 2)
-                            {
-                                isRunning = false;
-                            }
-                        }
-                    }
-                    if (event.key.code == Keyboard::Escape)
-                    {
-                        if (!interface.isMenu)
-                        {
-                            soundManager.playAudio("quit");
-                            anim.total = 0;
-                            anim.showScoreAnimFlag = false;
-                            scoreManager.resetScore();
-                            resetGame();
-                            interface.isMenu = true;
-                            snakeObj.isMoving = false;
-                        }
-                    }
-                }
+                is_keypressed = is_keypressed ? false : true;
                 break;
             case Event::KeyReleased:
-                if (is_keypressed)
-                {
-                    is_keypressed = false;
-                }
+                is_keypressed = false;
                 break;
+            default:
+                break;
+        }
+
+        if (is_keypressed)
+        {
+            const bool is_key_up = event.key.code == Keyboard::W || event.key.code == Keyboard::Up; 
+            const bool is_key_down = event.key.code == Keyboard::S || event.key.code == Keyboard::Down;
+            const bool is_key_left = event.key.code == Keyboard::A || event.key.code == Keyboard::Left;
+            const bool is_key_right = event.key.code == Keyboard::D || event.key.code == Keyboard::Right;
+
+            if (is_key_up && snakeObj.isMoving && !snakeObj.dir.up && !snakeObj.dir.down)
+            {
+                soundManager.playAudio("snake");
+                snakeObj.dir = {true, false, false, false};
+            }
+            if (is_key_down && snakeObj.isMoving && !snakeObj.dir.down && !snakeObj.dir.up)
+            {
+                soundManager.playAudio("snake");
+                snakeObj.dir = {false, true, false, false};
+            }
+            if (is_key_left && snakeObj.isMoving && !snakeObj.dir.left && !snakeObj.dir.right)
+            {
+                soundManager.playAudio("snake");
+                snakeObj.dir = {false, false, true, false};
+            }
+            if (is_key_right && snakeObj.isMoving && !snakeObj.dir.right && !snakeObj.dir.left)
+            {
+                soundManager.playAudio("snake");
+                snakeObj.dir = {false, false, false, true};
+            }
+
+            if (interface.isMenu && is_key_up)
+            {
+                interface.menuSelect = (interface.menuSelect % 2) + 1;
+                soundManager.playAudio("button_up");
+            }
+            if (interface.isMenu && is_key_down)
+            {
+                interface.menuSelect = (interface.menuSelect % 2) + 1;
+                soundManager.playAudio("button_down");
+            }
+            if (interface.isMenu && event.key.code == Keyboard::Enter)
+            {
+                switch (interface.menuSelect)
+                {
+                    case 1:
+                        soundManager.playAudio("button_enter");
+                        interface.isMenu = false;
+                        snakeObj.isMoving = true;
+                        foodObj.setRandomPosition(snakeObj);
+                        scoreManager.resetScore();
+                        break;
+                    case 2:
+                        isRunning = false;
+                        break;
+                }
+            }
+
+            if (!interface.isMenu && event.key.code == Keyboard::Escape)
+            {
+                soundManager.playAudio("quit");
+                anim.total = 0;
+                anim.showScoreAnimFlag = false;
+                scoreManager.resetScore();
+                resetGame();
+                interface.isMenu = true;
+                snakeObj.isMoving = false;
+            }
         }
     }
 }
@@ -257,7 +247,7 @@ void SnakeGame::render (const float& time)
         );
         interface.menu(menuClock);
     }
-	else
+    else
 	{
         if (colors.up)
         {
