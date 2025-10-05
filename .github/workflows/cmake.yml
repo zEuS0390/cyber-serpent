@@ -2,12 +2,14 @@ name: CMake
 
 on:
   push:
-    branches: [ "main" ]
-  pull_request:
-    branches: [ "main" ]
+    tags:
+      - "v*"
 
 env:
   BUILD_TYPE: Release
+
+permissions:
+  contents: write
 
 jobs:
   build-linux:
@@ -16,9 +18,19 @@ jobs:
     steps:
       # 1. Checkout the repository
       - name: Check out repository
-        uses: actions/checkout@v3
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+          fetch-tags: true
 
-      # 2. Install dependencies
+      # 2. Get latest tag
+      - name: Get latest tag
+        id: get_latest_tag
+        run: |
+          latest_tag=$(git describe --tags --abbrev=0 || echo "v0.0.0")
+          echo "latest_tag=$latest_tag" >> $GITHUB_OUTPUT
+
+      # 3. Install dependencies
       - name: Install dependencies
         shell: bash
         run: |
@@ -41,22 +53,42 @@ jobs:
             libxcursor-dev \
             libxi-dev
 
-      # 3. Configure the project using CMake
+      # 4. Extract version from git tag and generate version.cmake
+      - name: Generate version.cmake
+        shell: bash
+        run: |
+          tag=$(git describe --tags --abbrev=0 || echo "v0.0.0")
+          version="${tag#v}" # remove leading 'v'
+          echo "set(PROJECT_VERSION \"${version}\")" > ./version.cmake
+          cat version.cmake
+
+      # 5. Configure the project using CMake
       - name: Configure project (CMake)
         shell: bash
         run: |
-          cmake -S ${{github.workspace}} -B ${{github.workspace}}/build -G "Unix Makefiles" -DCMAKE_BUILD_TYPE=${{env.BUILD_TYPE}} -DCYBERSERPENT_GENERATE_INSTALLER=TRUE
+          cmake -S ${{github.workspace}} \
+            -B ${{github.workspace}}/build \
+            -G "Unix Makefiles" \
+            -DCMAKE_BUILD_TYPE=${{env.BUILD_TYPE}} \
+            -DCYBERSERPENT_GENERATE_INSTALLER=TRUE
 
-      # 4. Build the project
+      # 6. Build the project
       - name: Build project
         shell: bash
         run: cmake --build ${{github.workspace}}/build --config ${{env.BUILD_TYPE}}
 
-      # 4. Package the build using CPack
+      # 7. Package the build using CPack
       - name: Generate package (CPack)
         working-directory: ${{github.workspace}}/build
         shell: bash
         run: sudo cpack -G "TGZ"
+
+      # 8. Upload artifact
+      - name: Upload artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: CyberSerpent-${{ steps.get_latest_tag.outputs.latest_tag }}-linux
+          path: build/*.tar.gz
 
   build-windows:
     runs-on: windows-latest
@@ -64,24 +96,158 @@ jobs:
     steps:
       # 1. Checkout the repository
       - name: Check out repository
-        uses: actions/checkout@v3
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+          fetch-tags: true
 
       # 2. Install CMake
       - name: Install CMake
         run: choco install -y cmake nsis
 
-      # 3. Configure the project using CMake
+      # 2. Get latest tag
+      - name: Get latest tag
+        id: get_latest_tag
+        run: |
+          try {
+            $tag=git describe --tags --abbrev=0
+          } catch {
+            $tag=echo "v0.0.0"
+          }
+          Add-Content -Path $env:GITHUB_OUTPUT "latest_tag=$tag"
+
+      # 3. Extract version from git tag and generate version.cmake
+      - name: Generate version.cmake
+        shell: bash
+        run: |
+          tag=$(git describe --tags --abbrev=0 || echo "v0.0.0")
+          version="${tag#v}" # remove leading 'v'
+          echo "set(PROJECT_VERSION \"${version}\")" > ./version.cmake
+          cat version.cmake
+
+      # 4. Configure the project using CMake
       - name: Configure project (CMake)
         run: |
-          cmake -S ${{github.workspace}} -B ${{github.workspace}}/build -G "MinGW Makefiles" -DCMAKE_BUILD_TYPE=${{env.BUILD_TYPE}} -DCYBERSERPENT_GENERATE_INSTALLER=TRUE
+          cmake -S ${{github.workspace}} `
+            -B ${{github.workspace}}/build `
+            -G "MinGW Makefiles" `
+            -DCMAKE_BUILD_TYPE=${{env.BUILD_TYPE}} `
+            -DCYBERSERPENT_GENERATE_INSTALLER=TRUE
 
-      # 4. Build the project
+      # 5. Build the project
       - name: Build project
         run: cmake --build ${{github.workspace}}/build --config ${{env.BUILD_TYPE}}
 
-      # 4. Package the build using CPack
+      # 6. Package the build using CPack
       - name: Generate package (CPack)
         working-directory: ${{github.workspace}}/build
         run: |
           cpack -G "NSIS;ZIP"
+
+      # 7. Upload artifact
+      - name: Upload artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: CyberSerpent-${{ steps.get_latest_tag.outputs.latest_tag }}-windows
+          path: |
+            build/*.zip
+            build/*.exe
+
+  create-release:
+    runs-on: ubuntu-latest
+    needs: [build-linux, build-windows]
+
+    steps:
+
+      # 1. Checkout the repository
+      - name: Check out repository
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+          fetch-tags: true
+
+      # 2. Download all artifacts
+      - name: Download all artifacts
+        uses: actions/download-artifact@v4
+        with:
+          path: ./artifacts
+
+      # 3. Get latest tag
+      - name: Get latest tag
+        shell: bash
+        id: get_latest_tag
+        run: |
+          latest_tag=$(git describe --tags --abbrev=0 || echo "v0.0.0")
+          echo "latest_tag=$latest_tag" >> $GITHUB_OUTPUT
+
+      # 4. Create GitHub release
+      - name: Create GitHub release
+        id: create_new_release
+        uses: actions/create-release@v1
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        with:
+          tag_name: ${{ steps.get_latest_tag.outputs.latest_tag }}
+          release_name: ${{ steps.get_latest_tag.outputs.latest_tag }}
+          body: Snake Game by zEuS0390
+
+      # 5. Find artifact (.TAR.GZ) for Linux
+      - name: Find artifact for Linux
+        id: find_artifact_linux
+        run: |
+          FILE=$(find ./artifacts/CyberSerpent-${{ steps.get_latest_tag.outputs.latest_tag }}-linux/*.tar.gz)
+          FILENAME=$(basename "$FILE")
+          echo "artifact_path=$FILE" >> $GITHUB_OUTPUT
+          echo "artifact_name=$FILENAME" >> $GITHUB_OUTPUT
+
+      # 6. Upload release asset for Linux
+      - name: Upload release asset (.TAR.GZ) for Linux
+        uses: actions/upload-release-asset@v1
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        with:
+          upload_url: ${{ steps.create_new_release.outputs.upload_url }}
+          asset_path: ${{ steps.find_artifact_linux.outputs.artifact_path }}
+          asset_name: ${{ steps.find_artifact_linux.outputs.artifact_name }}
+          asset_content_type: application/gzip
+
+      # 7. Find artifact (.ZIP) for Windows
+      - name: Find artifact (.ZIP) for Windows
+        id: find_artifact_zip_windows
+        run: |
+          FILE=$(find ./artifacts/CyberSerpent-${{ steps.get_latest_tag.outputs.latest_tag }}-windows/*.zip)
+          FILENAME=$(basename "$FILE")
+          echo "artifact_path=$FILE" >> $GITHUB_OUTPUT
+          echo "artifact_name=$FILENAME" >> $GITHUB_OUTPUT
+
+      # 8. Upload release asset (.ZIP) for Windows
+      - name: Upload release asset (.ZIP) for Windows
+        uses: actions/upload-release-asset@v1
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        with:
+          upload_url: ${{ steps.create_new_release.outputs.upload_url }}
+          asset_path: ${{ steps.find_artifact_zip_windows.outputs.artifact_path }}
+          asset_name: ${{ steps.find_artifact_zip_windows.outputs.artifact_name }}
+          asset_content_type: application/zip
+
+      # 9. Find artifact (.EXE) for Windows
+      - name: Find artifact for Windows
+        id: find_artifact_exe_windows
+        run: |
+          FILE=$(find ./artifacts/CyberSerpent-${{ steps.get_latest_tag.outputs.latest_tag }}-windows/*.exe)
+          FILENAME=$(basename "$FILE")
+          echo "artifact_path=$FILE" >> $GITHUB_OUTPUT
+          echo "artifact_name=$FILENAME" >> $GITHUB_OUTPUT
+
+      # 10. Upload release asset (.EXE) for Windows
+      - name: Upload release asset for Windows
+        uses: actions/upload-release-asset@v1
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        with:
+          upload_url: ${{ steps.create_new_release.outputs.upload_url }}
+          asset_path: ${{ steps.find_artifact_exe_windows.outputs.artifact_path }}
+          asset_name: ${{ steps.find_artifact_exe_windows.outputs.artifact_name }}
+          asset_content_type: application/octet-stream
 
