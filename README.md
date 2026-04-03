@@ -48,6 +48,7 @@ Follow these steps:
 </p>
 
 ## Profiling Analysis
+I used gprof to analyze the performance and then visualized the results using gprof2dot to make them easier to read.
 <p align="center">
   <img width="8003" height="3167" alt="profiling_analysis" src="https://github.com/user-attachments/assets/2aabfbb4-a44a-4079-8b31-2c6976be8314" />
 </p>
