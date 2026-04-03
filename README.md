@@ -46,3 +46,8 @@ Follow these steps:
   <img src="https://user-images.githubusercontent.com/39390245/218938176-216a014a-e3e2-4a65-8cdb-7591cd629c1e.png" alt="gameplay-1"><br><br>
   <img src="https://github.com/zEuS0390/cpp-sfml-snake-game/assets/39390245/86ae6f20-384d-4666-8ac6-b5c321a16a5d" alt="gameplay-3">
 </p>
+
+## Profiling Analysis
+<p align="center">
+  <img width="8003" height="3167" alt="profiling_analysis" src="https://github.com/user-attachments/assets/2aabfbb4-a44a-4079-8b31-2c6976be8314" />
+</p>
